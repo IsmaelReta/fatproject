@@ -1,0 +1,30 @@
+#Made by IsmaelReta
+#this document explains the installation steps for virtual env with virtualenvwrapper along with the venv for this project. Initially done in WSL2.
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python3-pip
+pip3 install virtualenvwrapper
+export WORKON_HOME=~/.virtualenvs
+mkdir -p $WORKON_HOME
+
+#inside:
+nano ~/.bashrc
+
+#add at bottom:
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export WORKON_HOME=~/.virtualenvs
+source /home/username/.local/bin/virtualenvwrapper.sh
+
+mkvirtualenv fatproject
+pip install -r /path/to/requirements.txt
+django-admin startproject fatdjproject
+
+#fatdjproject will be the project you'll be working on
+#inside fatdjproject rename the folder fatdjproject to setting and update references
+
+./manage.py startapp data
+./manage.py migrate
+./manage.py createsuperuser #admin admin@admin.admin pepe1234 pepe1234
+
+
