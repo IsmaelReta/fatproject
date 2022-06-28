@@ -32,24 +32,25 @@ class Address(models.Model):
 class User(models.Model):
     last_name = models.CharField("last_n", max_length=100)
     first_name = models.CharField("first_n", max_length=100)
-    dni = models.DecimalField("dni", max_digits=5, decimal_places=2)
+    dni = models.DecimalField("dni", max_digits=8, decimal_places=0)
     email = models.CharField("email", max_length=100)
-    normal = models.BooleanField(null=False)
-    id_hi = models.OneToOneField(HealthInsurance, on_delete=models.CASCADE)
-    id_home = models.ForeignKey(Address, on_delete=models.CASCADE)
+    normal = models.BooleanField("disability certificate",null=False)
+    id_hi = models.OneToOneField("HealthInsurance", on_delete=models.CASCADE)
+    id_home = models.ForeignKey("Address", on_delete=models.CASCADE)
     def __str__(self) -> str:
         return f'ID: {self.id} - {self.last_name} {self.first_name}'
 
 
-class Order(models.Model):
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    def __str__(self) -> str:
-        return f'ID: {self.id}'
-
 class OrderDetail(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=0)
-    id_order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    #id_order = models.ForeignKey(Order, on_delete=models.CASCADE)
     id_product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount_price = models.DecimalField(max_digits=10, decimal_places=2)
     def __str__(self) -> str:
-        return f'ID: {self.id} - {self.amount} {self.id_order} {self.id_product} {self.amount_price}'
+        return f'ID: {self.id} - {self.amount} {self.id_product} {self.amount_price}'
+
+class Order(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_OrderDetail = models.ManyToManyField(OrderDetail)
+    def __str__(self) -> str:
+        return f'ID: {self.id}'
