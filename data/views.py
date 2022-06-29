@@ -3,7 +3,7 @@ from data.models import HealthInsurance, Product, Province, Address, User, Order
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'homev2.html')
 
 def form1(request):
     return render(request, 'form1.html')

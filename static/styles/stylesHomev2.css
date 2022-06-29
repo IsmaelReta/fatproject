@@ -1,0 +1,23 @@
+#div-body{
+    background-color: rgb(255, 255, 255);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#buttons-group{ 
+    background-color: rgb(255, 255, 255);
+    display: block;
+    width: 600px;
+    height: 600px;
+}
+
+.btn{
+    background-color: crimson;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 600px;
+    height: 50px;
+}
