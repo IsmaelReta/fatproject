@@ -1,5 +1,4 @@
 from django.db import models
-from ..users.models import Person
 # Create your models here.
 
 
@@ -14,11 +13,11 @@ class Product(models.Model):
 
 
 class Inventory(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    product = models.ForeignKey('warehouse.Product', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField()
     expiration_date = models.DateField()
     type = models.CharField(max_length=255)
-    warehouse = models.ForeignKey(Warehouse, on_delete=models.DO_NOTHING)
+    warehouse = models.ForeignKey('warehouse.Warehouse', on_delete=models.DO_NOTHING)
 
 
 class PurchasePlan(models.Model):
@@ -27,18 +26,18 @@ class PurchasePlan(models.Model):
 
 
 class PurchaseDetail(models.Model):
-    product_id = models.OneToOneField(Product, on_delete=models.DO_NOTHING)
+    product = models.OneToOneField('warehouse.Product', on_delete=models.DO_NOTHING)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
-    plan_id = models.ForeignKey(PurchasePlan, on_delete=models.DO_NOTHING)
+    plan = models.ForeignKey('warehouse.PurchasePlan', on_delete=models.DO_NOTHING)
 
 
 class Sale(models.Model):
-    persona_id = models.ForeignKey(Person, on_delete=models.DO_NOTHING)
+    persona = models.ForeignKey('users.Person', on_delete=models.DO_NOTHING)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 class SaleDetail(models.Model):
-    sale_id = models.ForeignKey(Sale, on_delete=models.DO_NOTHING)
-    product_id = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    sale = models.ForeignKey('warehouse.Sale', on_delete=models.DO_NOTHING)
+    product = models.ForeignKey('warehouse.Product', on_delete=models.DO_NOTHING)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
