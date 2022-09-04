@@ -38,6 +38,6 @@ class Sale(models.Model):
 
 
 class SaleDetail(models.Model):
-    sale = models.ForeignKey('warehouse.Sale', on_delete=models.DO_NOTHING)
+    sale = models.ForeignKey('warehouse.Sale', on_delete=models.CASCADE)
     product = models.ForeignKey('warehouse.Product', on_delete=models.DO_NOTHING)
     amount = models.DecimalField(max_digits=10, decimal_places=2)

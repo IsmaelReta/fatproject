@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'warehouse',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# TODO CORS_ALLOW_ALL_ORIGINS SET TO TRUE FOR DEVELOPMENT CHANGE TO FALSE LATER
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
