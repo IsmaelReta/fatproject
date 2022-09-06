@@ -19,7 +19,6 @@ from rest_framework import routers
 from users.views import PersonViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
 
 
-# router.register(r'users', views.UserGetView, 'user')
 router = routers.DefaultRouter()
 router.register("person", PersonViewSet, basename="person")
 router.register("healthInsurance", HealthInsuranceViewSet, basename="healthInsurance")
