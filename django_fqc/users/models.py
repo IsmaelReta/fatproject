@@ -15,7 +15,7 @@ class Person(models.Model):
 class HealthInsurance(models.Model):
     name = models.CharField(max_length=25, default='')
     description = models.CharField(max_length=255, default='')
-    person = models.OneToOneField('users.Person', related_name='health_insurance', on_delete=models.CASCADE)
+    person = models.ForeignKey('users.Person', related_name='health_insurance', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f'{self.name} - Person_ID:{self.id}'
