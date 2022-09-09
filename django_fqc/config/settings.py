@@ -29,6 +29,14 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+LOCAL_APPS = [
+    'employee',
+    'patient',
+    'product',
+    'purchase',
+    'sale',
+    'warehouse',
+]
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -42,10 +50,6 @@ DJANGO_APPS = [
 
 ]
 
-LOCAL_APPS = [
-    'users',
-    'warehouse',
-]
 
 THIRD_PARTY_APPS = [
     'rest_framework',

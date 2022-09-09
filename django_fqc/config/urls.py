@@ -16,14 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from users.views import PersonViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
-
+# from users.views import PersonViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
+from product.views import ProductViewSet
+from warehouse.views import WarehouseViewSet, InventoryViewSet
+# from .views import ViewSet
+# from .views import ViewSet
+# from .views import ViewSet
 
 router = routers.DefaultRouter()
-router.register("person", PersonViewSet, basename="person")
-router.register("healthInsurance", HealthInsuranceViewSet, basename="healthInsurance")
-router.register("certificate", CertificateViewSet, basename="certificate")
-router.register("tutor", TutorViewSet, basename="Tutor")
+router.register('product', ProductViewSet, basename='product')
+router.register('warehouse', WarehouseViewSet, basename='warehouse')
+router.register('warehouse', WarehouseViewSet, basename='warehouse')
+router.register('inventory', InventoryViewSet, basename='inventory')
+# router.register("person", PersonViewSet, basename="person")
+# router.register("healthInsurance", HealthInsuranceViewSet, basename="healthInsurance")
+# router.register("certificate", CertificateViewSet, basename="certificate")
+# router.register("tutor", TutorViewSet, basename="Tutor")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
