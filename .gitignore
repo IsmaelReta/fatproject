@@ -1,3 +1,4 @@
 .idea/
 .vscode/
 fat_project_venv/
+django_fqc/config/__pycache__/
