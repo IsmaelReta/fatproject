@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-# from users.views import PersonViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
 from product.views import ProductViewSet
 from warehouse.views import WarehouseViewSet, InventoryViewSet
 from employee.views import EmployeeViewSet
@@ -28,25 +27,18 @@ router = routers.DefaultRouter()
 router.register('product', ProductViewSet, basename='product')
 router.register('warehouse', WarehouseViewSet, basename='warehouse')
 router.register('inventory', InventoryViewSet, basename='inventory')
-router.register('Employee', EmployeeViewSet, basename='Employee')
-router.register('Patient', PatientViewSet, basename='Patient')
-router.register('HealthInsurance', HealthInsuranceViewSet, basename='HealthInsurance')
-router.register('Certificate', CertificateViewSet, basename='Certificate')
-router.register('Tutor', TutorViewSet, basename='Tutor')
-router.register('Purchase', PurchaseViewSet, basename='Purchase')
-router.register('PurchaseDetail', PurchaseDetailViewSet, basename='PurchaseDetail')
-router.register('Sale', SaleViewSet, basename='Sale')
-router.register('SaleDetail', SaleDetailViewSet, basename='SaleDetail')
-
-
-# router.register("person", PersonViewSet, basename="person")
-# router.register("healthInsurance", HealthInsuranceViewSet, basename="healthInsurance")
-# router.register("certificate", CertificateViewSet, basename="certificate")
-# router.register("tutor", TutorViewSet, basename="Tutor")
+router.register('employee', EmployeeViewSet, basename='Employee')
+router.register('patient', PatientViewSet, basename='Patient')
+router.register('healthInsurance', HealthInsuranceViewSet, basename='HealthInsurance')
+router.register('certificate', CertificateViewSet, basename='Certificate')
+router.register('tutor', TutorViewSet, basename='Tutor')
+router.register('purchase', PurchaseViewSet, basename='Purchase')
+router.register('purchaseDetail', PurchaseDetailViewSet, basename='PurchaseDetail')
+router.register('sale', SaleViewSet, basename='Sale')
+router.register('saleDetail', SaleDetailViewSet, basename='SaleDetail')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include(router.urls)),
     path('api/', include(router.urls)),
 
 ]

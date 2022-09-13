@@ -14,7 +14,7 @@ class PatientViewSet(viewsets.ModelViewSet):
         return patient
 
 
-class HealthInsuranceViewSet(viewsets.ViewSet):
+class HealthInsuranceViewSet(viewsets.ModelViewSet):
     serializer_class = HealthInsuranceSerializer
 
     def get_queryset(self):
@@ -22,7 +22,7 @@ class HealthInsuranceViewSet(viewsets.ViewSet):
         return health_insurance
 
 
-class CertificateViewSet(viewsets.ViewSet):
+class CertificateViewSet(viewsets.ModelViewSet):
     serializer_class = CertificateSerializer
 
     def get_queryset(self):
@@ -30,7 +30,7 @@ class CertificateViewSet(viewsets.ViewSet):
         return certificate
 
 
-class TutorViewSet(viewsets.ViewSet):
+class TutorViewSet(viewsets.ModelViewSet):
     serializer_class = TutorSerializer
 
     def get_queryset(self):

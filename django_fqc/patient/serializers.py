@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from .models import Patient, HealthInsurance, Certificate, Tutor
 
 
-
 class HealthInsuranceSerializer(serializers.Serializer):
     class Meta:
         model = HealthInsurance
@@ -38,4 +37,5 @@ class PatientSerializer(serializers.Serializer):
 
     class Meta:
         model = Patient
-        fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+        fields = '__all__'
+        # fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
