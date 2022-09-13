@@ -40,6 +40,5 @@ router.register('saleDetail', SaleDetailViewSet, basename='SaleDetail')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/patient', include('patient.urls')),
 
 ]
