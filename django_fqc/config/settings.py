@@ -50,6 +50,15 @@ DJANGO_APPS = [
 
 ]
 
+<<<<<<< HEAD
+=======
+LOCAL_APPS = [
+    'users',
+    'warehouse',
+    'patient',
+    'employee',
+]
+>>>>>>> 7eb3f470408a7089e976e863f3b3073ee69b1524
 
 THIRD_PARTY_APPS = [
     'rest_framework',
