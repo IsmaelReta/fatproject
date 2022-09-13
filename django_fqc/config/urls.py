@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from product.views import ProductViewSet
-from warehouse.views import WarehouseViewSet, InventoryViewSet
-from employee.views import EmployeeViewSet
-from patient.views import PatientViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
-from purchase.views import PurchaseViewSet, PurchaseDetailViewSet
-from sale.views import SaleViewSet, SaleDetailViewSet
+from product.views import ProductViewSet # noqa
+from warehouse.views import WarehouseViewSet, InventoryViewSet # noqa
+from employee.views import EmployeeViewSet # noqa
+from patient.views import PatientViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet # noqa
+from purchase.views import PurchaseViewSet, PurchaseDetailViewSet # noqa
+from sale.views import SaleViewSet, SaleDetailViewSet # noqa
 
 router = routers.DefaultRouter()
 router.register('product', ProductViewSet, basename='product')
@@ -40,5 +40,6 @@ router.register('saleDetail', SaleDetailViewSet, basename='SaleDetail')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/patient', include('patient.urls')),
 
 ]
