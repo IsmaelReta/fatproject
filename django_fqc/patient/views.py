@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-
 from .models import Patient, HealthInsurance, Certificate, Tutor
 from .serializers import PatientSerializer, HealthInsuranceSerializer, CertificateSerializer, TutorSerializer
 # Create your views here.
