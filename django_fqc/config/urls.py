@@ -19,15 +19,26 @@ from rest_framework import routers
 # from users.views import PersonViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
 from product.views import ProductViewSet
 from warehouse.views import WarehouseViewSet, InventoryViewSet
-# from .views import ViewSet
-# from .views import ViewSet
-# from .views import ViewSet
+from employee.views import EmployeeViewSet
+from patient.views import PatientViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet
+from purchase.views import PurchaseViewSet, PurchaseDetailViewSet
+from sale.views import SaleViewSet, SaleDetailViewSet
 
 router = routers.DefaultRouter()
 router.register('product', ProductViewSet, basename='product')
 router.register('warehouse', WarehouseViewSet, basename='warehouse')
-router.register('warehouse', WarehouseViewSet, basename='warehouse')
 router.register('inventory', InventoryViewSet, basename='inventory')
+router.register('Employee', EmployeeViewSet, basename='Employee')
+router.register('Patient', PatientViewSet, basename='Patient')
+router.register('HealthInsurance', HealthInsuranceViewSet, basename='HealthInsurance')
+router.register('Certificate', CertificateViewSet, basename='Certificate')
+router.register('Tutor', TutorViewSet, basename='Tutor')
+router.register('Purchase', PurchaseViewSet, basename='Purchase')
+router.register('PurchaseDetail', PurchaseDetailViewSet, basename='PurchaseDetail')
+router.register('Sale', SaleViewSet, basename='Sale')
+router.register('SaleDetail', SaleDetailViewSet, basename='SaleDetail')
+
+
 # router.register("person", PersonViewSet, basename="person")
 # router.register("healthInsurance", HealthInsuranceViewSet, basename="healthInsurance")
 # router.register("certificate", CertificateViewSet, basename="certificate")

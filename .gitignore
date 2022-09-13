@@ -5,3 +5,5 @@ django_fqc/config/__pycache__/
 django_fqc/employee/__pycache__/
 django_fqc/patient/__pycache__/
 django_fqc/warehouse/__pycache__/
+django_fqc/purchase/__pycache__/
+django_fqc/sale/__pycache__/

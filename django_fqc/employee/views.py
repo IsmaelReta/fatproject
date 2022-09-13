@@ -5,6 +5,7 @@ from .models import Employee
 from .serializers import EmployeeSerializer
 # Create your views here.
 
+
 class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
