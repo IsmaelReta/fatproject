@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-45cumi$*f$6=8s+i@3)_b@a9u#((8&!1(5o%6h+pa$ngt%7_3l'
+SECRET_KEY = 'django-insecure-45cumi$*f$6=8s+i@3)_b@a9u#((8&!1(5o%6h+pa$ngt%7_3l' # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,14 +29,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-LOCAL_APPS = [
-    'employee',
-    'patient',
-    'product',
-    'purchase',
-    'sale',
-    'warehouse',
-]
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -57,6 +49,8 @@ LOCAL_APPS = [
     'employee',
     'product',
     'sale',
+    'healthinsurance',
+    'userapi', # noqa
 ]
 
 THIRD_PARTY_APPS = [
@@ -160,4 +154,3 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
-
