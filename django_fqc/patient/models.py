@@ -12,7 +12,7 @@ class Patient(models.Model):
 
 
 class HealthInsurance(models.Model):
-    name = models.CharField(max_length=25, default='')
+    name = models.ForeignKey('healthinsurance.HealthInsurance', on_delete=models.DO_NOTHING)
     description = models.CharField(max_length=255, default='')
     patient = models.ForeignKey('patient.Patient', related_name='health_insurance', on_delete=models.CASCADE)
 

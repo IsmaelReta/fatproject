@@ -4,6 +4,6 @@ from .views import HealthInsuranceViewSet
 
 router = DefaultRouter()
 
-router.register('HealthInsurance', HealthInsuranceViewSet, basename='HealthInsurance')
+router.register('', HealthInsuranceViewSet, basename='healthinsurances')
 
 urlpatterns = router.urls
