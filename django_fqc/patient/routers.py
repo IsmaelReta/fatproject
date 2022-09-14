@@ -3,9 +3,9 @@ from .views import PatientViewSet, TutorViewSet, CertificateViewSet, HealthInsur
 
 router = DefaultRouter()
 
-router.register('patient', PatientViewSet, basename='')
-router.register('tutor', TutorViewSet, basename='')
-router.register('certificate', CertificateViewSet, basename='')
-router.register('health', HealthInsuranceViewSet, basename='')
+router.register('patient', PatientViewSet, basename='patient')
+router.register('tutor', TutorViewSet, basename='tutor')
+router.register('certificate', CertificateViewSet, basename='certificate')
+router.register('health', HealthInsuranceViewSet, basename='health')
 
 urlpatterns = router.urls

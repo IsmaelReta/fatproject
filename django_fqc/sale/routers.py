@@ -3,8 +3,8 @@ from .views import SaleViewSet, SaleDetailViewSet
 
 router = DefaultRouter()
 
-router.register('', SaleViewSet, basename='')
-router.register('', SaleDetailViewSet, basename='')
+router.register('Sale', SaleViewSet, basename='Sale')
+router.register('SaleDetail', SaleDetailViewSet, basename='SaleDetail')
 
 
 urlpatterns = router.urls
