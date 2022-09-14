@@ -1,5 +1,4 @@
 .idea/
 .vscode/
 fat_project_venv/
-.pyc
 *__pycache__*
