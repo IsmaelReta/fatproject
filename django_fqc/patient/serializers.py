@@ -18,14 +18,14 @@ class CertificateSerializer(serializers.ModelSerializer):
 
 class TutorSerializer(serializers.ModelSerializer):
 
-     class Meta:
+    class Meta:
         model = Tutor
         fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
 
-     class Meta:
+    class Meta:
         model = User
         fields = '__all__'
 
