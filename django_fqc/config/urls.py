@@ -15,30 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from product.views import ProductViewSet # noqa
-from warehouse.views import WarehouseViewSet, InventoryViewSet # noqa
-from employee.views import EmployeeViewSet # noqa
-from patient.views import PatientViewSet, HealthInsuranceViewSet, CertificateViewSet, TutorViewSet # noqa
-from purchase.views import PurchaseViewSet, PurchaseDetailViewSet # noqa
-from sale.views import SaleViewSet, SaleDetailViewSet # noqa
 
-router = routers.DefaultRouter()
-router.register('product', ProductViewSet, basename='product')
-router.register('warehouse', WarehouseViewSet, basename='warehouse')
-router.register('inventory', InventoryViewSet, basename='inventory')
-router.register('employee', EmployeeViewSet, basename='Employee')
-router.register('patient', PatientViewSet, basename='Patient')
-router.register('healthInsurance', HealthInsuranceViewSet, basename='HealthInsurance')
-router.register('certificate', CertificateViewSet, basename='Certificate')
-router.register('tutor', TutorViewSet, basename='Tutor')
-router.register('purchase', PurchaseViewSet, basename='Purchase')
-router.register('purchaseDetail', PurchaseDetailViewSet, basename='PurchaseDetail')
-router.register('sale', SaleViewSet, basename='Sale')
-router.register('saleDetail', SaleDetailViewSet, basename='SaleDetail')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include('employee.routers')),
+    path('api/', include('patient.routers')),
+    path('api/', include('product.routers')),
+    path('api/', include('purchase.routers')),
+    path('api/', include('sale.routers')),
+    path('api/', include('warehouse.routers')),
 
 ]
