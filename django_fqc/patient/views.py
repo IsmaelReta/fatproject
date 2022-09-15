@@ -12,6 +12,9 @@ class PatientViewSet(viewsets.ModelViewSet):
         patient = Patient.objects.all()
         return patient
 
+    def health(self,request):
+        health = self.get_queryset().order_by('').last()
+
 
 class HealthInsuranceViewSet(viewsets.ModelViewSet):
     serializer_class = HealthInsuranceSerializer

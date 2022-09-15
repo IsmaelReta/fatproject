@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register('', PatientViewSet, basename='patients')
 router.register('tutors', TutorViewSet, basename='tutors')
 router.register('certificates', CertificateViewSet, basename='certificates')
-router.register('', HealthInsuranceViewSet, basename='healthsinsurances')
+router.register('healths', HealthInsuranceViewSet, basename='healthsinsurances')
 
 urlpatterns = router.urls
