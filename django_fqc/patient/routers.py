@@ -4,7 +4,7 @@ from .views import PatientViewSet, TutorViewSet, CertificateViewSet, HealthInsur
 router = DefaultRouter()
 
 router.register('', PatientViewSet, basename='patients')
-router.register('tutors', TutorViewSet, basename='tutors')
+router.register('tutors', TutorViewSet, basename='patients')
 router.register('certificates', CertificateViewSet, basename='certificates')
 router.register('healths', HealthInsuranceViewSet, basename='healthsinsurances')
 
