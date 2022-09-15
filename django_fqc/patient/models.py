@@ -11,7 +11,7 @@ class Patient(models.Model):
         return f'{self.user} - Patient_ID:{self.id}'
 
 
-class HealthInsurance(models.Model):
+class HealthInsurancePatient(models.Model):
     name = models.ForeignKey('healthinsurance.HealthInsurance', on_delete=models.DO_NOTHING)
     description = models.CharField(max_length=255, default='')
     patient = models.ForeignKey('patient.Patient', related_name='health_insurance', on_delete=models.CASCADE)

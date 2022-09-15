@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Patient, HealthInsurance, Certificate, Tutor
-from .serializers import PatientSerializer, HealthInsuranceSerializer, CertificateSerializer, TutorSerializer
+from .models import Patient, HealthInsurancePatient, Certificate, Tutor
+from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer
 # Create your views here.
 
 
@@ -17,10 +17,10 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 
 class HealthInsuranceViewSet(viewsets.ModelViewSet):
-    serializer_class = HealthInsuranceSerializer
+    serializer_class = HealthInsurancePatientSerializer
 
     def get_queryset(self):
-        health_insurance = HealthInsurance.objects.all()
+        health_insurance = HealthInsurancePatient.objects.all()
         return health_insurance
 
 

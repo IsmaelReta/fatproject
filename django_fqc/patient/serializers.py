@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Patient, HealthInsurance, Certificate, Tutor
+from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 
 
-class HealthInsuranceSerializer(serializers.ModelSerializer):
+class HealthInsurancePatientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HealthInsurance
+        model = HealthInsurancePatient
         fields = '__all__'
 
 
@@ -30,11 +30,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
+    """
     health_insurance = HealthInsuranceSerializer(many=True)
     certificate = CertificateSerializer()
     tutor = TutorSerializer()
     user = UserSerializer()
+    """
 
     class Meta:
         model = Patient
-        fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+        fields = '__all__'
+        # fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
