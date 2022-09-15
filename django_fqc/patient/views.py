@@ -29,9 +29,11 @@ class CertificateViewSet(viewsets.ModelViewSet):
         return certificate
 
 
-class TutorViewSet(viewsets.ModelViewSet):
-    serializer_class = TutorSerializer
-
-    def get_queryset(self):
-        tutor = Tutor.objects.all()    
-        return tutor
+class PatientTutorViewSet(viewsets.ModelViewSet):
+    serializer_class = TutorSerializer  
+    queryset = Tutor.objects  
+    
+    def filter_queryset(self, queryset):
+        patient_id = self.kwargs["patient_id"]
+        tutors = Tutor.objects.filter(patient=patient_id)
+        return tutors
