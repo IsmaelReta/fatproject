@@ -37,3 +37,23 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
         patient_id = self.kwargs["patient_id"]
         tutors = Tutor.objects.filter(patient=patient_id)
         return tutors
+
+
+class PatientCertificateViewSet(viewsets.ModelViewSet):
+    serializer_class = CertificateSerializer
+    queryset = Certificate.objects
+
+    def filter_queryset(self, queryset):
+        patient_id = self.kwargs["patient_id"]
+        certificate = Certificate.objects.filter(patient=patient_id)
+        return certificate
+
+
+class PatientHealthInsViewSet(viewsets.ModelViewSet):
+    serializer_class = HealthInsurancePatientSerializer
+    queryset = HealthInsurancePatient.objects
+
+    def filter_queryset(self, queryset):
+        patient_id = self.kwargs["patient_id"]
+        hi_patient = HealthInsurancePatient.objects.filter(patient=patient_id)
+        return hi_patient
