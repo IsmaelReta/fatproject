@@ -25,12 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
-    """
-    health_insurance = HealthInsurancePatientSerializer(many=True)
-    certificate = CertificateSerializer()
-    tutor = TutorSerializer()
-    user = UserSerializer()
-    """
 
     class Meta:
         model = Patient
