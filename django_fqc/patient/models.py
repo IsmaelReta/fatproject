@@ -13,12 +13,12 @@ class Patient(models.Model):
 
 
 class HealthInsurancePatient(models.Model):
-    name = models.ForeignKey('healthinsurance.HealthInsurance', on_delete=models.DO_NOTHING)
+    healthinsurance = models.ForeignKey('healthinsurance.HealthInsurance', on_delete=models.DO_NOTHING)
     description = models.CharField(max_length=255, default='')
     patient = models.ForeignKey('patient.Patient', related_name='health_insurance', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f'{self.name} - Patient_ID:{self.patient.id}'
+        return f'{self.healthinsurance.name} - Patient_ID:{self.patient.id}'
 
 
 class Certificate(models.Model):

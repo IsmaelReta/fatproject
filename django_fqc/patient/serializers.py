@@ -1,15 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
-from healthinsurance.serializers import HealthInsuranceSerializer
-
-
-class HealthInsurancePatientSerializer(serializers.ModelSerializer):
-    healthinsurance = HealthInsuranceSerializer(many=True)
-
-    class Meta:
-        model = HealthInsurancePatient
-        fields = ['id', 'description', 'patient', 'healthinsurance']
+from healthinsurance.serializers import HealthInsuranceSerializer # noqa
 
 
 class CertificateSerializer(serializers.ModelSerializer):
@@ -44,3 +36,12 @@ class PatientSerializer(serializers.ModelSerializer):
         model = Patient
         fields = '__all__'
         # fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+
+
+class HealthInsurancePatientSerializer(serializers.ModelSerializer):
+    healthinsurance = HealthInsuranceSerializer()
+
+    class Meta:
+        model = HealthInsurancePatient
+        # fields = '__all__'
+        fields = ['healthinsurance', 'description']
