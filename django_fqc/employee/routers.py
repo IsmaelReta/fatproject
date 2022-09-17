@@ -3,6 +3,6 @@ from .views import EmployeeViewSet
 
 router = DefaultRouter()
 
-router.register('employees', EmployeeViewSet, basename='employee')
+router.register('', EmployeeViewSet, basename='employee')
 
 urlpatterns = router.urls
