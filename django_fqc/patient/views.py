@@ -1,7 +1,9 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
-from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer
+from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer, \
+    PatientFullSerializer
+from django.contrib.auth.models import User
+from userapi.serializers import UserSerializer # noqa
 # Create your views here.
 
 
@@ -57,3 +59,21 @@ class PatientHealthInsViewSet(viewsets.ModelViewSet):
         patient_id = self.kwargs["patient_id"]
         hi_patient = HealthInsurancePatient.objects.filter(patient=patient_id)
         return hi_patient
+
+
+class PatientUserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects
+
+    def filter_queryset(self, queryset):
+        patient_id = self.kwargs["patient_id"]
+        patient_user = User.objects.filter(patient=patient_id)
+        return patient_user
+
+
+class PatientFullViewSet(viewsets.ModelViewSet):
+    serializer_class = PatientFullSerializer
+
+    def get_queryset(self):
+        patient = Patient.objects.all()
+        return patient
