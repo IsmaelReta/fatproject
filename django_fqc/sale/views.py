@@ -16,7 +16,12 @@ class SaleViewSet(viewsets.ModelViewSet):
 
 class SaleDetailViewSet(viewsets.ModelViewSet):
     serializer_class = SaleDetailSerializer
+    queryset = SaleDetail.objects
 
-    def get_queryset(self):
-        sale_detail = SaleDetail.objects.all()
+    def filter_queryset(self, queryset):
+        sale_id = self.kwargs["sale_id"]
+        sale_detail = SaleDetail.objects.filter(sale=sale_id)
         return sale_detail
+
+
+
