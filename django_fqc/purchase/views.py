@@ -16,7 +16,9 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 
 class PurchaseDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PurchaseDetailSerializer
+    queryset = PurchaseDetail.objects
 
-    def get_queryset(self):
-        purchase_detail = PurchaseDetail.objects.all()
+    def filter_queryset(self, queryset):
+        purchase_id = self.kwargs['purchase_id']
+        purchase_detail = PurchaseDetail.objects.filter(purchase=purchase_id)
         return purchase_detail
