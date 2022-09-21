@@ -3,7 +3,8 @@ from .models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    total_p = serializers.IntegerField()
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['id','name','description', 'price', 'total_p']
