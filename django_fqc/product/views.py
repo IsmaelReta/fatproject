@@ -15,10 +15,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def filter_queryset(self, queryset):
         now_time_plus = datetime.now() + timedelta(days=30)
-        print("time plus", now_time_plus)
-        igroup = Product.objects.filter(inventory__expiration_date__gte = now_time_plus)
-        sgroup = igroup.annotate(total_p = Sum('inventory__quantity'))
-        return sgroup
+        products_date_filtered = Product.objects.filter(inventory__expiration_date__gte=now_time_plus)
+        products_with_quantity = products_date_filtered.annotate(total_products=Sum('inventory__quantity'))
+        return products_with_quantity
 
     """
     def get_queryset(self):
