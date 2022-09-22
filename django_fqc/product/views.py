@@ -18,9 +18,3 @@ class ProductViewSet(viewsets.ModelViewSet):
         products_date_filtered = Product.objects.filter(inventory__expiration_date__gte=now_time_plus)
         products_with_quantity = products_date_filtered.annotate(total_products=Sum('inventory__quantity'))
         return products_with_quantity
-
-    """
-    def get_queryset(self):
-        product = Product.objects.all()
-        return product
-    """
