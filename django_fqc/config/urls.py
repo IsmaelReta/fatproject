@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# slack test
+# slack test 2
 
 urlpatterns = [
     path('', admin.site.urls),
