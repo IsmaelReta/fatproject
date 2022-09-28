@@ -2,6 +2,27 @@ from rest_framework import serializers
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from healthinsurance.serializers import HealthInsuranceSerializer # noqa
 from userapi.serializers import UserSerializer # noqa
+from dj_rest_auth.registration.serializers import RegisterSerializer
+
+
+class UserSerializer(RegisterSerializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+
+    def get_cleaned_data(self):
+        super(UserSerializer, self).get_cleaned_data()
+        return {
+            'first_name': self.validated_data.get('first_name', ''),
+            'last_name': self.validated_data.get('last_name', ''),
+            'email': self.validated_data.get('email', ''),
+            'password1': self.validated_data.get('password1', '')
+        }
+
+    def save(self, request):
+        user = super().save(request)
+        user.save()
+        return user
+
 
 
 class CertificateSerializer(serializers.ModelSerializer):
