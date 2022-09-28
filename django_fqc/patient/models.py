@@ -25,7 +25,7 @@ class HealthInsurancePatient(models.Model):
 
 class Certificate(models.Model):
     status = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='patient/images')
+    image = models.ImageField(upload_to='static/patients/certificates')
     patient = models.OneToOneField('patient.Patient', on_delete=models.CASCADE, null=True)
 
     def __str__(self) -> str:
