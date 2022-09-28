@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
-from healthinsurance.serializers import HealthInsuranceSerializer # noqa
-from userapi.serializers import UserSerializer # noqa
+from healthinsurance.serializers import HealthInsuranceSerializer
+from userapi.serializers import UserSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
 
-class UserSerializer(RegisterSerializer):
+class UserSerializer(RegisterSerializer): # noqa
     first_name = serializers.CharField()
     last_name = serializers.CharField()
 
@@ -22,7 +22,6 @@ class UserSerializer(RegisterSerializer):
         user = super().save(request)
         user.save()
         return user
-
 
 
 class CertificateSerializer(serializers.ModelSerializer):
@@ -63,4 +62,3 @@ class PatientFullSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
-
