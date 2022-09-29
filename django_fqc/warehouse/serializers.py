@@ -8,7 +8,7 @@ class InventorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Inventory
-        fields =  ['products', 'quantity', 'expiration_date', 'type', 'warehouse', 'total_p', 'p']
+        fields =  ['product', 'quantity', 'expiration_date', 'type', 'warehouse', 'total_p', 'p']
 
 
 class WarehouseSerializer(serializers.ModelSerializer):

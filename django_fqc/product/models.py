@@ -7,8 +7,6 @@ class Product(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='static/warehouse/products',
-                              default='static/warehouse/products/default_product.jpg')
 
     def __str__(self) -> str:
         return f'{self.name} - ID:{self.id}'
