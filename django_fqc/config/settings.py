@@ -82,8 +82,10 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'projectofat@gmail.com'
-EMAIL_HOST_PASSWORD = 'rwonpechhtbicgrx'
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'proyectofat@gmail.com'
+EMAIL_HOST_PASSWORD = 'pzkcdvmcdalniyaf'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = [
     # allauth specific authentication methods, such as login by e-mail
