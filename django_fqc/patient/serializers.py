@@ -50,8 +50,15 @@ class HealthInsurancePatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HealthInsurancePatient
-        # fields = '__all__'
-        fields = ['healthinsurance', 'description']
+        fields = '__all__'
+        # fields = ['healthinsurance', 'description']
+
+
+class HIPost(serializers.ModelSerializer):
+
+    class Meta:
+        model = HealthInsurancePatient
+        fields = '__all__'
 
 
 class PatientFullSerializer(serializers.ModelSerializer):
