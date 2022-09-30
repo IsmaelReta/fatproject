@@ -8,6 +8,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 class UserSerializer(RegisterSerializer): # noqa
     first_name = serializers.CharField()
     last_name = serializers.CharField()
+    username = None
 
     def get_cleaned_data(self):
         super(UserSerializer, self).get_cleaned_data()
@@ -20,6 +21,7 @@ class UserSerializer(RegisterSerializer): # noqa
 
     def save(self, request):
         user = super().save(request)
+        user.username = user.email
         user.save()
         return user
 
