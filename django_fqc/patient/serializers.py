@@ -3,6 +3,7 @@ from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from healthinsurance.serializers import HealthInsuranceSerializer
 from userapi.serializers import UserSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
+import base64
 
 
 class UserSerializer(RegisterSerializer): # noqa

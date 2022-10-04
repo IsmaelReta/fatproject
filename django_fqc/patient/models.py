@@ -23,28 +23,12 @@ class HealthInsurancePatient(models.Model):
         return f'{self.healthinsurance.name} - Patient_ID:{self.patient.id}'
 
 
-class BlobCertificate(models.Model):
-    blob = models.TextField(db_column='data', default=' ', blank=True)
-
-    def set_data(self, data):
-        self.blob = base64.encodebytes(data)
-
-    def get_data(self):
-        return base64.decodebytes(self.blob)
-
-    data = property(get_data, set_data)
-
-    image = models.ImageField(upload_to=set_data, default='patients/certificates/default_certificate.jpg')
-    certificate = models.OneToOneField('patient.Certificate', on_delete=models.CASCADE)
-
-
 class Certificate(models.Model):
-    status = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='patients/certificates')
+    image_binary = models.BinaryField(editable=True, null=True)
     patient = models.OneToOneField('patient.Patient', on_delete=models.CASCADE, null=True)
 
     def __str__(self) -> str:
-        return f'{self.status} - Patient_ID:{self.id}'
+        return f'Patient_ID:{self.id}'
 
 
 class Tutor(models.Model):

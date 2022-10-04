@@ -4,6 +4,7 @@ from .serializers import PatientSerializer, HealthInsurancePatientSerializer, Ce
     PatientFullSerializer, HIPost
 from django.contrib.auth.models import User
 from userapi.serializers import UserSerializer # noqa
+import base64
 # Create your views here.
 
 
