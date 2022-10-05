@@ -1,3 +1,4 @@
+from urllib import request
 from rest_framework import viewsets, status
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer, \
@@ -6,6 +7,8 @@ from django.contrib.auth.models import User
 from userapi.serializers import UserSerializer # noq
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 # Create your views here.
 
 
@@ -74,25 +77,37 @@ class HIPost(viewsets.ModelViewSet):
 #*Returns user data from a patient
 class PatientUserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects
 
-    def filter_queryset(self, queryset):
-        patient_id = self.kwargs["patient_id"]
-        patient_user = User.objects.filter(patient=patient_id)
+    def get_queryset(self):
+        # patient_id = self.kwargs["patient_id"]
+        user = self.request.user
+        patient_user = User.objects.filter(id=self.request.user.id)
         return patient_user
 
-#* returns all users with its data, including patients data
+
+#*Returns all users with its data, including patients data
 class PatientFullViewSet(viewsets.ModelViewSet):
     serializer_class = PatientFullSerializer
 
+    # def get_permissions(self):
+    #     if self.request.method == 'POST':
+    #         self.permission_classes = [IsAuthenticated,]
+    #     else:
+    #         self.permission_classes = [AllowAny,]
+    #     return super().get_permissions()
+
     def get_queryset(self):
-        user = self.request.user
-        user_state = user.is_authenticated
-        if user_state == True:
-            patient = Patient.objects.all()
-            return patient
-        else:
-            raise ValidationError(detail='Superuser Required') 
+        patient = Patient.objects.all()
+        return patient
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     user_state = user.is_superuser
+    #     if user_state == True:
+    #         patient = Patient.objects.all()
+    #         return patient
+    #     else:
+    #         raise ValidationError(detail='Superuser Required') 
 
     # def get(self, request):
     #     user_state = request.user.is_superuser
