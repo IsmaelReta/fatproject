@@ -74,14 +74,13 @@ class HIPost(viewsets.ModelViewSet):
         hipost = HealthInsurancePatient.objects.all()
         return hipost
 
-#*Returns user data from a patient
+#*Returns user data from request user
 class PatientUserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = PatientFullSerializer
 
     def get_queryset(self):
-        # patient_id = self.kwargs["patient_id"]
         user = self.request.user
-        patient_user = User.objects.filter(id=self.request.user.id)
+        patient_user = Patient.objects.filter(user=self.request.user)
         return patient_user
 
 

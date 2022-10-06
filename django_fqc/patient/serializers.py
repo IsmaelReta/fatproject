@@ -5,13 +5,13 @@ from userapi.serializers import UserSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
 
-class UserSerializer(RegisterSerializer): # noqa
+class UserRegisterSerializer(RegisterSerializer): 
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     username = None
 
     def get_cleaned_data(self):
-        super(UserSerializer, self).get_cleaned_data()
+        super(UserRegisterSerializer, self).get_cleaned_data()
         return {
             'first_name': self.validated_data.get('first_name', ''),
             'last_name': self.validated_data.get('last_name', ''),
@@ -41,10 +41,17 @@ class TutorSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
+    # firstn = serializers.CharField()
+    # lastn = serializers.CharField()
 
     class Meta:
         model = Patient
         fields = '__all__'
+
+    # def update(self, instance, validated_data):
+    #     instance.first_name = validated_data.get('first_name', instance.first_name)
+    #     return instance
+
 
 
 class HealthInsurancePatientSerializer(serializers.ModelSerializer):
@@ -68,7 +75,10 @@ class PatientFullSerializer(serializers.ModelSerializer):
     certificate = CertificateSerializer()
     tutor = TutorSerializer()
     user = UserSerializer()
+    patient_id = serializers.IntegerField(source='id')
 
     class Meta:
         model = Patient
-        fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+        fields = ['user', 'patient_id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+
+    
