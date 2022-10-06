@@ -33,7 +33,6 @@ class Certificate(models.Model):
         return f'Patient_ID:{self.id}'
 
     def image(self):
-        src = "data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"
         return format_html(
             f'<a href="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}" target="_blank">'
             f'<img src="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"'
