@@ -1,6 +1,8 @@
+from django.contrib import admin
 from django.db import models
-import base64
+from django.utils.html import format_html
 from django.contrib.auth.models import User
+import base64
 
 
 class Patient(models.Model):
@@ -29,6 +31,14 @@ class Certificate(models.Model):
 
     def __str__(self) -> str:
         return f'Patient_ID:{self.id}'
+
+    def image(self):
+        src = "data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"
+        return format_html(
+            f'<a href="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}" target="_blank">'
+            f'<img src="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"'
+            f' width="100px" height="50px" class="img-thumbnail"> </a>'
+        )
 
 
 class Tutor(models.Model):
