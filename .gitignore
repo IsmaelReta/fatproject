@@ -2,3 +2,4 @@
 .vscode/
 fat_project_venv/
 *__pycache__*
+.env
