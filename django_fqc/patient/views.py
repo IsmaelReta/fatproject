@@ -36,6 +36,9 @@ class PatientViewSet(viewsets.ModelViewSet):
 #         certificate = Certificate.objects.all()
 #         return certificate
 
+
+
+
 #*Returns tutor from certain patient
 class PatientTutorViewSet(viewsets.ModelViewSet):
     serializer_class = TutorSerializer  
@@ -63,6 +66,8 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+
+
 #*Returns certificate from certain patient
 class PatientCertificateViewSet(viewsets.ModelViewSet):
     serializer_class = CertificateSerializer
@@ -72,6 +77,7 @@ class PatientCertificateViewSet(viewsets.ModelViewSet):
         patient_id = self.kwargs["patient_id"]
         certificate = Certificate.objects.filter(patient=patient_id)
         return certificate
+
 
 
 
@@ -87,6 +93,7 @@ class PatientHealthInsViewSet(viewsets.ModelViewSet):
 
 
 
+
 #*Returns all health insurances from all patients
 class HIPost(viewsets.ModelViewSet):
     serializer_class = HIPost
@@ -94,6 +101,7 @@ class HIPost(viewsets.ModelViewSet):
     def get_queryset(self):
         hipost = HealthInsurancePatient.objects.all()
         return hipost
+
 
 
 
@@ -106,6 +114,7 @@ class PatientUserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         patient_user = Patient.objects.filter(user=self.request.user)
         return patient_user
+
 
 
 
