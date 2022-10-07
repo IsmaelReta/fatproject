@@ -39,18 +39,17 @@ class TutorSerializer(serializers.ModelSerializer):
         model = Tutor
         fields = '__all__'
 
+    # def update(self, instance, validated_data):
+    #     instance.first_name = validated_data.get('first_name', instance.first_name)
+    #     instance.last_name = validated_data.get('last_name', instance.last_name)
+    #     return instance
 
 class PatientSerializer(serializers.ModelSerializer):
-    # firstn = serializers.CharField()
-    # lastn = serializers.CharField()
-
+  
     class Meta:
         model = Patient
         fields = '__all__'
 
-    # def update(self, instance, validated_data):
-    #     instance.first_name = validated_data.get('first_name', instance.first_name)
-    #     return instance
 
 
 
@@ -80,5 +79,6 @@ class PatientFullSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ['user', 'patient_id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+    
 
     
