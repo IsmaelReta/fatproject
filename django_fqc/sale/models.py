@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Sale(models.Model):
-    patient = models.OneToOneField("patient.Patient", on_delete=models.CASCADE)
+    patient = models.ForeignKey("patient.Patient", on_delete=models.CASCADE)
 
     PENDIENTE = 'Pendiente'
     ACEPTADO = 'Aceptado'
@@ -19,7 +19,7 @@ class Sale(models.Model):
 
 
 class SaleDetail(models.Model):
-    sale = models.OneToOneField("sale.Sale", on_delete=models.CASCADE)
+    sale = models.ForeignKey("sale.Sale", on_delete=models.CASCADE)
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
     expiration_date = models.DateField()
     amount = models.PositiveIntegerField()
