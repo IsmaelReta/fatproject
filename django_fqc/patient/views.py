@@ -44,11 +44,13 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
     serializer_class = TutorSerializer  
     queryset = Tutor.objects  
     
+    #?only can access to own tutor
     def get_queryset(self):
         patient_id = self.kwargs["patient_id"]
         tutors = Tutor.objects.filter(patient=patient_id)
         return tutors
 
+    #!should only be able to change own tutor(problem in get_queryset. who would use this view)
     def update(self, request, *args, **kwargs):
         tutor_object = self.get_object()
         data = request.data
@@ -73,6 +75,7 @@ class PatientCertificateViewSet(viewsets.ModelViewSet):
     serializer_class = CertificateSerializer
     queryset = Certificate.objects
 
+    #?only can access to own certificates
     def get_queryset(self):
         patient_id = self.kwargs["patient_id"]
         certificate = Certificate.objects.filter(patient=patient_id)
@@ -86,6 +89,7 @@ class PatientHealthInsViewSet(viewsets.ModelViewSet):
     serializer_class = HealthInsurancePatientSerializer
     queryset = HealthInsurancePatient.objects
 
+    #?only can access to own health insurances
     def get_queryset(self):
         patient_id = self.kwargs["patient_id"]
         hi_patient = HealthInsurancePatient.objects.filter(patient=patient_id)
@@ -144,6 +148,7 @@ class PatientFullViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         patient = Patient.objects.all()
         return patient
+
     #?list method, only superusers can see data, else HTTP_400 or HTPP_401
     def list(self, request):
         user_state = request.user.is_superuser
