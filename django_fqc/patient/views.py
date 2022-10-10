@@ -12,6 +12,7 @@ from rest_framework.decorators import action
 # Create your views here.
 
 
+
 #*Returns all patients
 class PatientViewSet(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
