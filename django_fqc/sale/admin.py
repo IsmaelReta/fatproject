@@ -28,7 +28,7 @@ class SaleAdmin(admin.ModelAdmin):
         ) % updated, messages.SUCCESS)
 
     @admin.action(description='Marca venta/s seleccionadas como cancelada')
-    def make_accepted(self, request, queryset):
+    def make_canceled(self, request, queryset):
         updated = queryset.update(status='C')
         self.message_user(request, ngettext(
             '%d La venta fue exitosamente marcada como cancelada.',
