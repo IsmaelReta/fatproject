@@ -45,12 +45,37 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
     serializer_class = TutorSerializer  
     queryset = Tutor.objects  
     
-    #?only can access to own tutor
+    # #?only can access to own tutor
+    # def get_queryset(self):
+    #     patient_id = self.kwargs["patient_id"]
+    #     tutors = Tutor.objects.filter(patient=patient_id)
+    #     return tutors
+
     def get_queryset(self):
-        patient_id = self.kwargs["patient_id"]
-        tutors = Tutor.objects.filter(patient=patient_id)
+        tutors = Tutor.objects.all()
         return tutors
 
+    # #?only can access to own tutor
+    # def get_queryset(self):
+    #     patient_id = self.kwargs["patient_id"]
+    #     if self.request.user.id == patient_id:
+    #         tutors = Tutor.objects.filter(patient=patient_id)
+    #         return tutors
+    #     else:
+    #         return None
+    
+    def list(self, request, *args, **kwargs):
+        params = kwargs
+        p_id = params['patient_id']
+        currentPatient = self.request.user.patient.id
+        print(params['patient_id'])
+        if int(currentPatient) == int(p_id):
+            tutor = Tutor.objects.filter(patient=p_id)
+            serializer = TutorSerializer(tutor, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'Authorization Required'}, status=status.HTTP_401_UNAUTHORIZED)
+    
     #!should only be able to change own tutor(problem in get_queryset. who would use this view)
     def update(self, request, *args, **kwargs):
         tutor_object = self.get_object()
@@ -117,7 +142,7 @@ class PatientUserViewSet(viewsets.ModelViewSet):
     #?only can acces to own data
     def get_queryset(self):
         user = self.request.user
-        patient_user = Patient.objects.filter(user=self.request.user)
+        patient_user = Patient.objects.filter(user=user)
         return patient_user
 
 
@@ -136,21 +161,11 @@ class PatientFullViewSet(viewsets.ModelViewSet):
     #     return super().get_permissions()
     
     
-    #!get_queryset if user is superuser(wrong way)
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     user_state = user.is_superuser
-    #     if user_state == True:
-    #         patient = Patient.objects.all()
-    #         return patient
-    #     else:
-    #         raise ValidationError(detail='Superuser Required')
-
     def get_queryset(self):
         patient = Patient.objects.all()
         return patient
 
-    #?list method, only superusers can see data, else HTTP_400 or HTPP_401
+    #!ERROR
     def list(self, request):
         user_state = request.user.is_superuser
         if user_state == True:
