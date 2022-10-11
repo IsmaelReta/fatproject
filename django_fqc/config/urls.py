@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/patients/', include('patient.routers')),
     path('api/products/', include('product.routers')),
     # path('api/purchases/', include('purchase.routers')),
-    # path('api/sales/', include('sale.routers')),
+    path('api/sales/', include('sale.routers')),
     # path('api/warehouses/', include('warehouse.routers')),
     path('api/users/', include('userapi.routers')),
     path('api/healthinsurances/', include('healthinsurance.routers')),

@@ -5,7 +5,7 @@ from .models import Product
 from warehouse.models import Inventory
 from warehouse.serializers import InventorySerializer
 from .serializers import ProductSerializer
-from django.db.models import Count, Sum
+from django.db.models import Sum
 # Create your views here.
 
 
