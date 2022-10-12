@@ -17,7 +17,6 @@ class Sale(models.Model):
 
     def status_label(self,):
         status = self.status
-
         if status == 'P':
             style = "color:yellow"
             label_text = self.STATUS_CHOICES[0][1]

@@ -35,6 +35,7 @@ class SaleAdmin(admin.ModelAdmin):
             '%d Las ventas fueron exitosamente marcadas como cancelada.',
             updated,
         ) % updated, messages.SUCCESS)
+        queryset.delete()
 
 
 admin.site.register(Sale, SaleAdmin)
