@@ -74,9 +74,9 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
             serializer = TutorSerializer(tutor, many=True)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'Authorization Required'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
     
-    #!should only be able to change own tutor(problem in get_queryset. who would use this view)
+    #!should only be able to change own tutor
     def update(self, request, *args, **kwargs):
         tutor_object = self.get_object()
         data = request.data
@@ -165,7 +165,7 @@ class PatientFullViewSet(viewsets.ModelViewSet):
         patient = Patient.objects.all()
         return patient
 
-    #!ERROR
+    #!Fix with def list method below
     def list(self, request):
         user_state = request.user.is_superuser
         if user_state == True:
@@ -175,5 +175,17 @@ class PatientFullViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error' : 'Authorization Required'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def list(self, request, *args, **kwargs):
+        params = kwargs
+        p_id = params['patient_id']
+        currentPatient = self.request.user.patient.id
+        print(params['patient_id'])
+        if int(currentPatient) == int(p_id):
+            tutor = Tutor.objects.filter(patient=p_id)
+            serializer = TutorSerializer(tutor, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
