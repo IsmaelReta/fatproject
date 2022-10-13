@@ -54,21 +54,11 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         tutors = Tutor.objects.all()
         return tutors
-
-    # #?only can access to own tutor
-    # def get_queryset(self):
-    #     patient_id = self.kwargs["patient_id"]
-    #     if self.request.user.id == patient_id:
-    #         tutors = Tutor.objects.filter(patient=patient_id)
-    #         return tutors
-    #     else:
-    #         return None
     
     def list(self, request, *args, **kwargs):
         params = kwargs
         p_id = params['patient_id']
         currentPatient = self.request.user.patient.id
-        print(params['patient_id'])
         if int(currentPatient) == int(p_id):
             tutor = Tutor.objects.filter(patient=p_id)
             serializer = TutorSerializer(tutor, many=True)
