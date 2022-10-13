@@ -97,13 +97,22 @@ def detail_pre_save(sender, instance: SaleDetail, *args, **kwargs):
         if inventory.quantity == change:                    # if new equal to saved delete inventory
             print("delete inventory")
             inventory.delete()
+            """
+        elif inventory.quantity < change
         else:
-            inventory.quantity -= change                    # remove from inventory
-            inventory.save()
-            print("remove from inventory", inventory.id)
+            if inventory.quantity > change:
+                inventory.quantity -= change                    # remove from inventory
+                inventory.save()
+                print("remove from inventory", inventory.id)
+            else:
+                while change != 0:
 
+                    inventory = Inventory.objects.get(id=new.product.id)
+                    change -= inventory.quantity
+                    inventory.delete()
 
-pre_save.connect(detail_pre_save, sender=SaleDetail)
+pre_save.connect(detail_pre_save, sender=SaleDetail)"""
+
 # from django.contrib.auth.models import User
 # from django.dispatch import receiver
 # from .models import Sale, SaleDetail
