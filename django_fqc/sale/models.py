@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils.html import format_html
+from django.db.models.signals import post_save, pre_save, pre_delete
+from warehouse.models import Warehouse, Inventory
 
 
 class Sale(models.Model):
     patient = models.ForeignKey("patient.Patient", on_delete=models.CASCADE)
-
     STATUS_CHOICES = [
         ('P', 'Pendiente'),
         ('A', 'Aceptado'),
@@ -58,4 +59,53 @@ class SaleDetail(models.Model):
     
     def __str__(self) -> str:
         return f'- SaleDetail_ID:{self.id}'
-# TODO precio setear actual del producto
+
+    # def save(
+    #     self, force_insert=False, force_update=False, using=None, update_fields=None
+    # ):
+    #     super(SaleDetail, self).save()
+
+
+def detail_post_save(sender, instance, created, *args, **kwargs):
+    pass
+
+
+post_save.connect(detail_post_save, sender=SaleDetail)
+
+
+def detail_pre_save(sender, instance: SaleDetail, *args, **kwargs):
+    previous = SaleDetail.objects.get(id=instance.id)
+    new = instance
+    if previous.amount == new.amount:                               # are there amount changes?
+        return print("no amount changes", previous.amount, new.amount)
+    elif previous.amount > new.amount:                              # reduced amount, add in inventory
+        print("reduced amount")
+        change = previous.amount - new.amount
+        if Inventory.objects.get(id=new.product.id).id == new.product.id:   # add to existing inventory
+            print("add to inventory")
+            inventory = Inventory.objects.get(id=new.product.id)
+            inventory.quantity += change
+            inventory.save()
+        else:                                                              # create inventory with poduct
+            print("create inventory")
+            inv = Inventory(product_id=new.product.id, quantity=change, type=' ', warehouse_id=1)
+            inv.save()
+    elif previous.amount < new.amount:                      # increased amount, remove from inventory
+        print("increased amount")
+        change = new.amount - previous.amount
+        inventory = Inventory.objects.get(id=new.product.id)
+        if inventory.quantity == change:                    # if new equal to saved delete inventory
+            print("delete inventory")
+            inventory.delete()
+        else:
+            inventory.quantity -= change                    # remove from inventory
+            inventory.save()
+            print("remove from inventory", inventory.id)
+
+
+pre_save.connect(detail_pre_save, sender=SaleDetail)
+# from django.contrib.auth.models import User
+# from django.dispatch import receiver
+# from .models import Sale, SaleDetail
+
+

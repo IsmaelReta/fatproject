@@ -17,4 +17,4 @@ class Inventory(models.Model):
     warehouse = models.ForeignKey('warehouse.Warehouse', related_name='inventory', on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
-        return f'{self.product} - Inventory_ID:{self.id}'
+        return f'{self.product} Cantidad:{self.quantity} - Inventory_ID:{self.id}'
