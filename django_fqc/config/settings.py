@@ -60,6 +60,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'rest_framework_simplejwt',
     'corsheaders', # noqa
 ]
 
@@ -157,6 +158,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ),
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

@@ -24,23 +24,6 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 
 
-# class HealthInsuranceViewSet(viewsets.ModelViewSet):
-#     serializer_class = HealthInsurancePatientSerializer
-
-#     def get_queryset(self):
-#         health_insurance = HealthInsurancePatient.objects.all()
-#         return health_insurance
-
-
-# class CertificateViewSet(viewsets.ModelViewSet):
-#     serializer_class = CertificateSerializer
-
-#     def get_queryset(self):
-#         certificate = Certificate.objects.all()
-#         return certificate
-
-
-
 
 #*Returns tutor from certain patient
 class TutorViewSet(mixins.CreateModelMixin, 
@@ -59,10 +42,11 @@ class TutorViewSet(mixins.CreateModelMixin,
     
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
-        p_id = params['pk']
-        currentPatient = self.request.user.patient.id
-        if int(currentPatient) == int(p_id):
-            tutor = Tutor.objects.filter(patient=p_id)
+        t_id = params['pk']
+        current_patient = self.request.user.patient.id
+        current_tutor = self.get_object()
+        if int(current_tutor.patient.id) == int(current_patient):
+            tutor = Tutor.objects.filter(id=t_id)
             serializer = TutorSerializer(tutor, many=True)
             return Response(serializer.data)
         else:
@@ -86,8 +70,10 @@ class TutorViewSet(mixins.CreateModelMixin,
 
 
 
+
+
 #*Returns certificate from certain patient
-class PatientCertificateViewSet(mixins.CreateModelMixin, 
+class CertificateViewSet(mixins.CreateModelMixin, 
                    mixins.RetrieveModelMixin, 
                    mixins.UpdateModelMixin,
                    mixins.DestroyModelMixin, 
@@ -95,10 +81,8 @@ class PatientCertificateViewSet(mixins.CreateModelMixin,
     serializer_class = CertificateSerializer
     queryset = Certificate.objects
 
-    #?only can access to own certificates
+
     def get_queryset(self):
-        # pk = self.kwargs["pk"]
-        # certificate = Certificate.objects.filter(id=pk)
         certificate = Certificate.objects.all()
         return certificate
     
@@ -131,40 +115,51 @@ class PatientCertificateViewSet(mixins.CreateModelMixin,
 
 
 
+
+
 #*Returns all healthInsurances from certain patient
-class PatientHealthInsViewSet(viewsets.ModelViewSet):
+class HealthInsViewSet(mixins.CreateModelMixin, 
+                   mixins.RetrieveModelMixin, 
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin, 
+                   viewsets.GenericViewSet):
     serializer_class = HealthInsurancePatientSerializer
     queryset = HealthInsurancePatient.objects
 
-    #?only can access to own health insurances
+    
     def get_queryset(self):
-        patient_id = self.kwargs["patient_id"]
-        hi_patient = HealthInsurancePatient.objects.filter(patient=patient_id)
+        hi_patient = HealthInsurancePatient.objects.all()
         return hi_patient
 
+    def retrieve(self, request, *args, **kwargs):
+        params = kwargs
+        h_id = params['pk']
+        current_patient = self.request.user.patient.id
+        current_health = self.get_object()
+        if int(current_health.patient.id) == int(current_patient):
+            health = HealthInsurancePatient.objects.filter(id=h_id)
+            serializer = HealthInsurancePatientSerializer(health, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+    def update(self, request, *args, **kwargs):
+        certificate_object = self.get_object()
+        data = request.data
+
+
+        certificate_object.status = data['status']   
+        certificate_object.image = data['image']   
+
+
+        certificate_object.save()
+
+        serializer = TutorSerializer(certificate_object)
+        return Response(serializer.data)
 
 
 
-#*Returns all health insurances from all patients
-class HIPost(viewsets.ModelViewSet):
-    serializer_class = HIPost
-
-    def get_queryset(self):
-        hipost = HealthInsurancePatient.objects.all()
-        return hipost
-
-
-
-
-#*Returns user data from request user
-class PatientUserViewSet(viewsets.ModelViewSet):
-    serializer_class = PatientFullSerializer
-
-    #?only can acces to own data
-    def get_queryset(self):
-        user = self.request.user
-        patient_user = Patient.objects.filter(user=user)
-        return patient_user
 
 
 
