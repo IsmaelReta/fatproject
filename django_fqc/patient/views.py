@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, mixins
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer, \
     PatientFullSerializer, HIPost
@@ -22,6 +22,8 @@ class PatientViewSet(viewsets.ModelViewSet):
         return patient
 
 
+
+
 # class HealthInsuranceViewSet(viewsets.ModelViewSet):
 #     serializer_class = HealthInsurancePatientSerializer
 
@@ -41,15 +43,14 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 
 #*Returns tutor from certain patient
-class PatientTutorViewSet(viewsets.ModelViewSet):
+class TutorViewSet(mixins.CreateModelMixin, 
+                   mixins.RetrieveModelMixin, 
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin, 
+                   viewsets.GenericViewSet):
     serializer_class = TutorSerializer  
     queryset = Tutor.objects  
     
-    # #?only can access to own tutor
-    # def get_queryset(self):
-    #     patient_id = self.kwargs["patient_id"]
-    #     tutors = Tutor.objects.filter(patient=patient_id)
-    #     return tutors
 
     def get_queryset(self):
         tutors = Tutor.objects.all()
@@ -57,7 +58,7 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
     
     def list(self, request, *args, **kwargs):
         params = kwargs
-        p_id = params['patient_id']
+        p_id = params['pk']
         currentPatient = self.request.user.patient.id
         if int(currentPatient) == int(p_id):
             tutor = Tutor.objects.filter(patient=p_id)
@@ -66,8 +67,20 @@ class PatientTutorViewSet(viewsets.ModelViewSet):
         else:
             return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
     
-    #!should only be able to change own tutor
+    def retrieve(self, request, *args, **kwargs):
+        params = kwargs
+        p_id = params['pk']
+        currentPatient = self.request.user.patient.id
+        if int(currentPatient) == int(p_id):
+            tutor = Tutor.objects.filter(patient=p_id)
+            serializer = TutorSerializer(tutor, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
     def update(self, request, *args, **kwargs):
+        print('update')
         tutor_object = self.get_object()
         data = request.data
 
@@ -141,21 +154,14 @@ class PatientUserViewSet(viewsets.ModelViewSet):
 #*Returns all users with its data, including patients data
 class PatientFullViewSet(viewsets.ModelViewSet):
     serializer_class = PatientFullSerializer
-
-    #?pemission for only auth user in certain method
-    # def get_permissions(self):
-    #     if self.request.method == 'POST':
-    #         self.permission_classes = [IsAuthenticated,]
-    #     else:
-    #         self.permission_classes = [AllowAny,]
-    #     return super().get_permissions()
     
     
     def get_queryset(self):
         patient = Patient.objects.all()
         return patient
 
-    #!Fix with def list method below
+
+
     def list(self, request):
         user_state = request.user.is_superuser
         if user_state == True:
@@ -166,14 +172,14 @@ class PatientFullViewSet(viewsets.ModelViewSet):
         else:
             return Response({'error' : 'Authorization Required'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    def list(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         params = kwargs
-        p_id = params['patient_id']
+        p_id = params['pk']
         currentPatient = self.request.user.patient.id
-        print(params['patient_id'])
+        print(params['pk'])
         if int(currentPatient) == int(p_id):
-            tutor = Tutor.objects.filter(patient=p_id)
-            serializer = TutorSerializer(tutor, many=True)
+            patient = Patient.objects.filter(id=p_id)
+            serializer = PatientFullSerializer(patient, many=True)
             return Response(serializer.data)
         else:
             return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)

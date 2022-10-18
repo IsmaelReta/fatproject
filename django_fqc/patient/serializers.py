@@ -37,7 +37,7 @@ class TutorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tutor
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'patient']
 
 class PatientSerializer(serializers.ModelSerializer):
   
