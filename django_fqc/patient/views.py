@@ -56,16 +56,6 @@ class TutorViewSet(mixins.CreateModelMixin,
         tutors = Tutor.objects.all()
         return tutors
     
-    def list(self, request, *args, **kwargs):
-        params = kwargs
-        p_id = params['pk']
-        currentPatient = self.request.user.patient.id
-        if int(currentPatient) == int(p_id):
-            tutor = Tutor.objects.filter(patient=p_id)
-            serializer = TutorSerializer(tutor, many=True)
-            return Response(serializer.data)
-        else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
     
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
@@ -80,12 +70,9 @@ class TutorViewSet(mixins.CreateModelMixin,
 
 
     def update(self, request, *args, **kwargs):
-        print('update')
         tutor_object = self.get_object()
         data = request.data
 
-        # first_n = Tutor.objects.get(first_name=data['first_name'])    
-        # last_n = Tutor.objects.get(last_name=data['last_name'])
 
         tutor_object.first_name = data['first_name']   
         tutor_object.last_name = data['last_name']   
@@ -100,15 +87,46 @@ class TutorViewSet(mixins.CreateModelMixin,
 
 
 #*Returns certificate from certain patient
-class PatientCertificateViewSet(viewsets.ModelViewSet):
+class PatientCertificateViewSet(mixins.CreateModelMixin, 
+                   mixins.RetrieveModelMixin, 
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin, 
+                   viewsets.GenericViewSet):
     serializer_class = CertificateSerializer
     queryset = Certificate.objects
 
     #?only can access to own certificates
     def get_queryset(self):
-        patient_id = self.kwargs["patient_id"]
-        certificate = Certificate.objects.filter(patient=patient_id)
+        # pk = self.kwargs["pk"]
+        # certificate = Certificate.objects.filter(id=pk)
+        certificate = Certificate.objects.all()
         return certificate
+    
+    def retrieve(self, request, *args, **kwargs):
+        params = kwargs
+        c_id = params['pk']
+        current_patient = self.request.user.patient.id
+        current_certificate = self.get_object()
+        if int(current_certificate.patient.id) == int(current_patient):
+            certificate = Certificate.objects.filter(id=c_id)
+            serializer = CertificateSerializer(certificate, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def update(self, request, *args, **kwargs):
+        certificate_object = self.get_object()
+        data = request.data
+
+
+        certificate_object.status = data['status']   
+        certificate_object.image = data['image']   
+
+
+        certificate_object.save()
+
+        serializer = TutorSerializer(certificate_object)
+        return Response(serializer.data)
 
 
 

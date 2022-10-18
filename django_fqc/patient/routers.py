@@ -6,7 +6,7 @@ router = DefaultRouter()
 
 router.register('list', PatientViewSet, basename='patients')
 router.register('tutors', TutorViewSet, basename='tutors')
-router.register(r'(?P<patient_id>[^/.]+)/certificates', PatientCertificateViewSet, basename='certificates')
+router.register('certificates', PatientCertificateViewSet, basename='certificates')
 router.register(r'(?P<patient_id>[^/.]+)/healthinsurances', PatientHealthInsViewSet, basename='healthsinsurances')
 router.register('users', PatientUserViewSet, basename='users')
 router.register('hipost', HIPost, basename='post_hi')
