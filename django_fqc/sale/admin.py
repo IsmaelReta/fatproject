@@ -8,6 +8,7 @@ from django.utils.translation import ngettext
 
 class SaleDetailInLine(admin.TabularInline):
     model = SaleDetail
+    extra = 0
 
 
 class SaleAdmin(admin.ModelAdmin):

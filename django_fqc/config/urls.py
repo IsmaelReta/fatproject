@@ -23,14 +23,14 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     re_path(r'^password-reset/$',
-        TemplateView.as_view(template_name="password_reset.html"),
-        name='password-reset'),
+            TemplateView.as_view(template_name="password_reset.html"),
+            name='password-reset'),
     re_path(r'^password-reset/confirm/$',
-        TemplateView.as_view(template_name="password_reset_confirm.html"),
-        name='password-reset-confirm'),
+            TemplateView.as_view(template_name="password_reset_confirm.html"),
+            name='password-reset-confirm'),
     re_path(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
-        TemplateView.as_view(template_name="password_reset_confirm.html"),
-        name='password_reset_confirm'),
+            TemplateView.as_view(template_name="password_reset_confirm.html"),
+            name='password_reset_confirm'),
     path('admin/', admin.site.urls),
     # path('api/employees/', include('employee.routers')),
     path('api/patients/', include('patient.routers')),
@@ -46,4 +46,3 @@ urlpatterns = [
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

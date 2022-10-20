@@ -5,6 +5,7 @@ from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 
 class CertificateAdmin(admin.ModelAdmin):
     list_display = ('patient', 'image')
+    readonly_fields = ('image',)
 
 
 admin.site.register(Patient)
