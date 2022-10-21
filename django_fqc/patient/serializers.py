@@ -1,9 +1,10 @@
 from rest_framework import serializers
+
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from healthinsurance.serializers import HealthInsuranceSerializer
 from userapi.serializers import UserSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
-import base64
+from django.contrib.auth.models import User
 
 
 class UserRegisterSerializer(RegisterSerializer): 
@@ -41,7 +42,8 @@ class TutorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tutor
-        fields = ['id','tutor_first_name','tutor_last_name','patient']
+        fields = ['first_name', 'last_name', 'patient']
+
 
 class PatientSerializer(serializers.ModelSerializer):
   
@@ -68,16 +70,56 @@ class HIPost(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# class PatientFullSerializer(serializers.ModelSerializer):
+#     health_insurance = HealthInsurancePatientSerializer(many=True)
+#     certificate = CertificateSerializer()
+#     tutor = TutorSerializer()
+#     user = UserSerializer()
+#     patient_id = serializers.IntegerField(source='id')
+
+#     class Meta:
+#         model = Patient
+#         fields = ['user', 'patient_id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+    
 class PatientFullSerializer(serializers.ModelSerializer):
-    health_insurance = HealthInsurancePatientSerializer(many=True)
-    certificate = CertificateSerializer()
-    tutor = TutorSerializer()
-    user = UserSerializer()
-    patient_id = serializers.IntegerField(source='id')
+    health_insurance = serializers.SerializerMethodField()
+    certificate = serializers.SerializerMethodField()
+    tutor = serializers.SerializerMethodField()
+    patient = PatientSerializer()
 
+
+    # def get_certificate(self, obj):
+    #         patient = PatientSerializer()
+    #         print(patient.data['id'])
+    #         customer_account_query = Certificate.objects.filter(id=obj.id)
+    #         serializer = CertificateSerializer(customer_account_query, many=True)
+    
+    #         return serializer.data
+
+    def get_health_insurance(self, obj):
+            pat = Patient.objects.filter(user=obj)
+            customer_account_query = HealthInsurancePatient.objects.filter(patient__in=pat)
+            serializer = HealthInsurancePatientSerializer(customer_account_query, many=True)
+    
+            return serializer.data
+
+    def get_certificate(self, obj):
+            pat = Patient.objects.filter(user=obj)
+            customer_account_query = Certificate.objects.filter(patient__in=pat)
+            serializer = CertificateSerializer(customer_account_query, many=True)
+    
+            return serializer.data
+
+    def get_tutor(self, obj):
+            pat = Patient.objects.filter(user=obj)
+            customer_account_query = Tutor.objects.filter(patient__in=pat)
+            serializer = TutorSerializer(customer_account_query, many=True)
+    
+            return serializer.data
+
+#!falta doc number
     class Meta:
-        model = Patient
-        fields = ['user', 'patient_id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'patient', 'tutor', 'certificate', 'health_insurance']
     
-
-    
+       
