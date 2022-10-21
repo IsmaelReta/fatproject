@@ -36,10 +36,14 @@ class CertificateSerializer(serializers.ModelSerializer):
 
 
 class TutorSerializer(serializers.ModelSerializer):
+    tutor_first_name = serializers.CharField(source='first_name')
+    tutor_last_name = serializers.CharField(source='last_name')
+
 
     class Meta:
         model = Tutor
         fields = ['first_name', 'last_name', 'patient']
+
 
 class PatientSerializer(serializers.ModelSerializer):
   

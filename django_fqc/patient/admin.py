@@ -1,10 +1,14 @@
 from django.contrib import admin
-
-from .models import Patient, HealthInsurancePatient, Certificate, Tutor, BlobCertificate
-
+from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 # Register your models here.
+
+
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ('patient', 'image')
+    readonly_fields = ('image',)
+
+
 admin.site.register(Patient)
 admin.site.register(HealthInsurancePatient)
-admin.site.register(Certificate)
+admin.site.register(Certificate, CertificateAdmin)
 admin.site.register(Tutor)
-admin.site.register(BlobCertificate)

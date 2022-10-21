@@ -3,7 +3,7 @@ from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer, \
     PatientFullSerializer, HIPost
 from django.contrib.auth.models import User
-from userapi.serializers import UserSerializer # noq
+from userapi.serializers import UserSerializer # noqa
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.decorators import permission_classes
@@ -12,20 +12,18 @@ from rest_framework.decorators import action
 # Create your views here.
 
 
-
 #*Returns certain user
-class PatientViewSet(mixins.CreateModelMixin, 
-                   mixins.RetrieveModelMixin, 
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin, 
-                   viewsets.GenericViewSet):
+class PatientViewSet(mixins.CreateModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin,
+                     viewsets.GenericViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
         user = User.objects.all()
         return user
 
-    
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
         u_id = params['pk']
