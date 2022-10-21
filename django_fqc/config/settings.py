@@ -79,7 +79,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 LOGIN_URL = 'http://localhost:8000/dj-rest-auth/login'
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'patient.serializers.UserSerializer'
+    'REGISTER_SERIALIZER': 'patient.serializers.UserRegisterSerializer'
 }
 
 EMAIL_USE_TLS = True

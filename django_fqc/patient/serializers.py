@@ -6,13 +6,13 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 import base64
 
 
-class UserSerializer(RegisterSerializer): # noqa
+class UserRegisterSerializer(RegisterSerializer): 
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     username = None
 
     def get_cleaned_data(self):
-        super(UserSerializer, self).get_cleaned_data()
+        super(UserRegisterSerializer, self).get_cleaned_data()
         return {
             'first_name': self.validated_data.get('first_name', ''),
             'last_name': self.validated_data.get('last_name', ''),
@@ -43,12 +43,13 @@ class TutorSerializer(serializers.ModelSerializer):
         model = Tutor
         fields = ['id','tutor_first_name','tutor_last_name','patient']
 
-
 class PatientSerializer(serializers.ModelSerializer):
-
+  
     class Meta:
         model = Patient
         fields = '__all__'
+
+
 
 
 class HealthInsurancePatientSerializer(serializers.ModelSerializer):
@@ -72,7 +73,11 @@ class PatientFullSerializer(serializers.ModelSerializer):
     certificate = CertificateSerializer()
     tutor = TutorSerializer()
     user = UserSerializer()
+    patient_id = serializers.IntegerField(source='id')
 
     class Meta:
         model = Patient
-        fields = ['user', 'id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+        fields = ['user', 'patient_id', 'document_number', 'certificate', 'tutor', 'health_insurance']
+    
+
+    

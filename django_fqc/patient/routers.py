@@ -8,7 +8,7 @@ router.register('list', PatientViewSet, basename='patients')
 router.register(r'(?P<patient_id>[^/.]+)/tutors', PatientTutorViewSet, basename='tutors')
 router.register(r'(?P<patient_id>[^/.]+)/certificates', PatientCertificateViewSet, basename='certificates')
 router.register(r'(?P<patient_id>[^/.]+)/healthinsurances', PatientHealthInsViewSet, basename='healthsinsurances')
-router.register(r'(?P<patient_id>[^/.]+)/users', PatientUserViewSet, basename='users')
+router.register('users', PatientUserViewSet, basename='users')
 router.register('hipost', HIPost, basename='post_hi')
 router.register('full', PatientFullViewSet, basename='patientfull')
 
