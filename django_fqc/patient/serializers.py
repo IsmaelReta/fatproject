@@ -117,7 +117,7 @@ class PatientFullSerializer(serializers.ModelSerializer):
     
             return serializer.data
 
-#!falta doc number
+
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'patient', 'tutor', 'certificate', 'health_insurance']
