@@ -5,7 +5,7 @@ from .views import (PatientViewSet, TutorViewSet,
 
 router = DefaultRouter()
 
-router.register('list', PatientViewSet, basename='patients')
+router.register('users', PatientViewSet, basename='patients')
 router.register('tutors', TutorViewSet, basename='tutors')
 router.register('certificates', CertificateViewSet, basename='certificates')
 router.register('healthinsurances', HealthInsViewSet, basename='healthsinsurances')

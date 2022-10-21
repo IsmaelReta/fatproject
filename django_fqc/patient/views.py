@@ -13,13 +13,30 @@ from rest_framework.decorators import action
 
 
 
-#*Returns all patients
-class PatientViewSet(viewsets.ModelViewSet):
-    serializer_class = PatientSerializer
+#*Returns certain user
+class PatientViewSet(mixins.CreateModelMixin, 
+                   mixins.RetrieveModelMixin, 
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin, 
+                   viewsets.GenericViewSet):
+    serializer_class = UserSerializer
 
     def get_queryset(self):
-        patient = Patient.objects.all()
-        return patient
+        user = User.objects.all()
+        return user
+
+    
+    def retrieve(self, request, *args, **kwargs):
+        params = kwargs
+        u_id = params['pk']
+        current_user = self.request.user.id
+        if int(current_user) == int(u_id):
+            user = User.objects.filter(id=u_id)
+            serializer = UserSerializer(user, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 
 
@@ -109,7 +126,7 @@ class CertificateViewSet(mixins.CreateModelMixin,
 
         certificate_object.save()
 
-        serializer = TutorSerializer(certificate_object)
+        serializer = CertificateSerializer(certificate_object)
         return Response(serializer.data)
 
 
@@ -145,17 +162,18 @@ class HealthInsViewSet(mixins.CreateModelMixin,
 
 
     def update(self, request, *args, **kwargs):
-        certificate_object = self.get_object()
+        healths_object = self.get_object()
         data = request.data
 
 
-        certificate_object.status = data['status']   
-        certificate_object.image = data['image']   
+        healths_object.healthinsurance = data['healthinsurance']   
+        healths_object.description = data['description']   
+        healths_object.patient = data['patient']   
 
 
-        certificate_object.save()
+        healths_object.save()
 
-        serializer = TutorSerializer(certificate_object)
+        serializer = HealthInsurancePatientSerializer(healths_object)
         return Response(serializer.data)
 
 
@@ -164,7 +182,7 @@ class HealthInsViewSet(mixins.CreateModelMixin,
 
 
 
-#*Returns all users with its data, including patients data
+#*Returns all user data, including patient data
 class PatientFullViewSet(viewsets.ModelViewSet):
     serializer_class = PatientFullSerializer
     
@@ -178,12 +196,13 @@ class PatientFullViewSet(viewsets.ModelViewSet):
     def list(self, request):
         user_state = request.user.is_superuser
         if user_state == True:
-            serializer = PatientFullSerializer(data = request.data)
-            if serializer.is_valid():
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            user = User.objects.all()
+            serializer = PatientFullSerializer(user, many = True)
+            return Response(serializer.data)
         else:
             return Response({'error' : 'Authorization Required'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
