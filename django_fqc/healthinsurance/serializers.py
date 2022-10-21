@@ -5,4 +5,4 @@ from .models import HealthInsurance
 class HealthInsuranceSerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthInsurance
-        fields = '__all__'
+        fields = ['id', 'name']
