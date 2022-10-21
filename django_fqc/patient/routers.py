@@ -1,11 +1,15 @@
 from rest_framework.routers import DefaultRouter
-from .views import PatientViewSet, TutorViewSet, CertificateViewSet, HealthInsuranceViewSet
+from .views import PatientViewSet, PatientTutorViewSet, PatientCertificateViewSet, PatientHealthInsViewSet,\
+    PatientUserViewSet, PatientFullViewSet, HIPost
 
 router = DefaultRouter()
 
-router.register('patient', PatientViewSet, basename='patient')
-router.register('tutor', TutorViewSet, basename='tutor')
-router.register('certificate', CertificateViewSet, basename='certificate')
-router.register('health', HealthInsuranceViewSet, basename='health')
+router.register('list', PatientViewSet, basename='patients')
+router.register(r'(?P<patient_id>[^/.]+)/tutors', PatientTutorViewSet, basename='tutors')
+router.register(r'(?P<patient_id>[^/.]+)/certificates', PatientCertificateViewSet, basename='certificates')
+router.register(r'(?P<patient_id>[^/.]+)/healthinsurances', PatientHealthInsViewSet, basename='healthsinsurances')
+router.register('users', PatientUserViewSet, basename='users')
+router.register('hipost', HIPost, basename='post_hi')
+router.register('full', PatientFullViewSet, basename='patientfull')
 
 urlpatterns = router.urls

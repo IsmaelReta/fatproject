@@ -3,8 +3,8 @@ from .views import SaleViewSet, SaleDetailViewSet
 
 router = DefaultRouter()
 
-router.register('Sale', SaleViewSet, basename='Sale')
-router.register('SaleDetail', SaleDetailViewSet, basename='SaleDetail')
+router.register('', SaleViewSet, basename='Sales')
+router.register(r'(?P<sale_id>[^/.]+)/details', SaleDetailViewSet, basename='details')
 
 
 urlpatterns = router.urls

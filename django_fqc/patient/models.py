@@ -1,32 +1,43 @@
+from django.contrib import admin
 from django.db import models
-#
+from django.utils.html import format_html
 from django.contrib.auth.models import User
+import base64
 
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     document_number = models.CharField(max_length=8)
+    birth_date = models.DateField(null=True)
+    province = models.CharField(max_length=25)
+    city = models.CharField(max_length=30)
 
     def __str__(self) -> str:
         return f'{self.user} - Patient_ID:{self.id}'
 
 
-class HealthInsurance(models.Model):
-    name = models.CharField(max_length=25, default='')
+class HealthInsurancePatient(models.Model):
+    healthinsurance = models.ForeignKey('healthinsurance.HealthInsurance', on_delete=models.DO_NOTHING)
     description = models.CharField(max_length=255, default='')
     patient = models.ForeignKey('patient.Patient', related_name='health_insurance', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f'{self.name} - Patient_ID:{self.id}'
+        return f'{self.healthinsurance.name} - Patient_ID:{self.patient.id}'
 
 
 class Certificate(models.Model):
-    status = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='patient/images')
+    image_binary = models.BinaryField(editable=True, null=True)
     patient = models.OneToOneField('patient.Patient', on_delete=models.CASCADE, null=True)
 
     def __str__(self) -> str:
-        return f'{self.status} - Patient_ID:{self.id}'
+        return f'Patient_ID:{self.id}'
+
+    def image(self):
+        return format_html(
+            f'<a href="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}" target="_blank">'
+            f'<img src="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"'
+            f' width="100px" height="50px" class="img-thumbnail"> </a>'
+        )
 
 
 class Tutor(models.Model):

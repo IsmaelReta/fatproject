@@ -2,15 +2,19 @@ from rest_framework import serializers
 from .models import Warehouse, Inventory
 
 
-class WarehouseSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Warehouse
-        fields = '__all__'
-
-
 class InventorySerializer(serializers.ModelSerializer):
+    total_p = serializers.IntegerField()
+    p = serializers.IntegerField()
 
     class Meta:
         model = Inventory
-        fields = '__all__'
+        fields =  ['product', 'quantity', 'expiration_date', 'type', 'warehouse', 'total_p', 'p']
+
+
+class WarehouseSerializer(serializers.ModelSerializer):
+    inventory = InventorySerializer(many=True)
+
+    class Meta:
+        model = Warehouse
+        # fields = '__all__'
+        fields = ['name', 'inventory']
