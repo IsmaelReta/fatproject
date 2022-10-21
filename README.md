@@ -15,6 +15,14 @@ Also note this project was created using Python 3.10.6
 
 3 - pip install -r requirements.txt
 
-4 - python django_fqc/manage.py check
+4 - Also you will ned a .env file in the project folder with
 
-5 - python django_fqc/manage.py runserver
+DEFAULT_FROM_EMAIL - Email used to send Emails
+
+EMAIL_HOST_PASSWOR - Email Password for this service
+
+SECRET_KEY - Django secret key
+
+5 - python django_fqc/manage.py check
+
+6 - python django_fqc/manage.py runserver
