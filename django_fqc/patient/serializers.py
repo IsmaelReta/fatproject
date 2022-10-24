@@ -88,13 +88,6 @@ class PatientFullSerializer(serializers.ModelSerializer):
     patient = PatientSerializer()
 
 
-    # def get_certificate(self, obj):
-    #         patient = PatientSerializer()
-    #         print(patient.data['id'])
-    #         customer_account_query = Certificate.objects.filter(id=obj.id)
-    #         serializer = CertificateSerializer(customer_account_query, many=True)
-    
-    #         return serializer.data
 
     def get_health_insurance(self, obj):
             pat = Patient.objects.filter(user=obj)
