@@ -59,6 +59,20 @@ class PatientViewSet(mixins.CreateModelMixin,
             return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+    def destroy(self, request, *args, **kwargs):
+        user_state = self.request.user.is_superuser
+        patient = self.get_object()
+        if user_state == False:
+            user_patient = self.request.user.patient
+            if user_patient == patient:
+                patient.delete()
+                return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            patient.delete()
+            return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
+
 
 
 # *Returns tutor from certain patient
@@ -224,3 +238,17 @@ class HealthInsViewSet(mixins.CreateModelMixin,
             return Response(serializer.data)
         else:
             return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def destroy(self, request, *args, **kwargs):
+        user_state = self.request.user.is_superuser
+        health = self.get_object()
+        if user_state == False:
+            user_health = self.request.user.patient.healthinsurancepatient
+            if user_health == health:
+                health.delete()
+                return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            health.delete()
+            return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
