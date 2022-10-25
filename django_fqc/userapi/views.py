@@ -50,6 +50,8 @@ class UserViewSet(viewsets.ModelViewSet):
             user_object.delete()
             return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
 
+
+
 #*Returns all user data, including patient data
 class UserFullViewSet(mixins.RetrieveModelMixin, 
                    mixins.DestroyModelMixin, 
