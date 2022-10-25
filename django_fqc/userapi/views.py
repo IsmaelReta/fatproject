@@ -1,7 +1,9 @@
 from rest_framework import viewsets
-
+from rest_framework import viewsets, status, mixins
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserFullSerializer
+from rest_framework.response import Response
+
 # Create your views here.
 
 
@@ -11,3 +13,45 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = User.objects.all()
         return user
+
+#*Returns all user data, including patient data
+class UserFullViewSet(mixins.RetrieveModelMixin, 
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin, 
+                   viewsets.GenericViewSet):
+    serializer_class = UserFullSerializer
+    
+    
+    def get_queryset(self):
+        user = User.objects.all()
+        return user
+
+
+
+    def list(self, request):
+        user_state = request.user.is_superuser
+        if user_state == True:
+            user = User.objects.all()
+            serializer = UserFullSerializer(user, many = True)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'Authorization Required'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+    def retrieve(self, request, *args, **kwargs):
+        params = kwargs
+        u_id = params['pk']
+        user_state =self.request.user.is_superuser
+        if user_state == False:
+            current_user = self.request.user.id
+            if int(current_user) == int(u_id):
+                user = User.objects.filter(id=u_id)
+                serializer = UserFullSerializer(user, many=True)
+                return Response(serializer.data)
+            else:
+                return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            user = User.objects.filter(id=u_id)
+            serializer = UserFullSerializer(user, many=True)
+            return Response(serializer.data)
