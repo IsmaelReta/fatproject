@@ -15,7 +15,7 @@ Also note this project was created using Python 3.10.6
 
 3 - pip install -r requirements.txt
 
-4 - Also you will ned a .env file in the project folder with
+4 - Also you will ned a .env file in the project directory with
 
 DEFAULT_FROM_EMAIL - Email used to send Emails
 
