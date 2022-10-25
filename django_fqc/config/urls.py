@@ -18,7 +18,7 @@ from django.urls import path, include, re_path
 from dj_rest_auth.registration.views import VerifyEmailView, ConfirmEmailView
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 
@@ -33,6 +33,7 @@ urlpatterns = [
             TemplateView.as_view(template_name="password_reset_confirm.html"),
             name='password_reset_confirm'),
 
+    path('', RedirectView.as_view(url='admin/')),
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
