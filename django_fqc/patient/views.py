@@ -2,7 +2,7 @@ from rest_framework import viewsets, status, mixins
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer, HIPost
 from django.contrib.auth.models import User
-from userapi.serializers import UserSerializer # noqa
+from userapi.serializers import UserSerializer  # noqa
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.decorators import permission_classes
@@ -11,7 +11,7 @@ from rest_framework.decorators import action
 # Create your views here.
 
 
-#*Returns certain user
+# *Returns certain user
 class PatientViewSet(mixins.CreateModelMixin,
                      mixins.RetrieveModelMixin,
                      mixins.UpdateModelMixin,
@@ -26,7 +26,7 @@ class PatientViewSet(mixins.CreateModelMixin,
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
         p_id = params['pk']
-        user_state =self.request.user.is_superuser
+        user_state = self.request.user.is_superuser
         if user_state == False:
             current_patient = self.request.user.patient.id
             if int(current_patient) == int(p_id):
@@ -34,7 +34,7 @@ class PatientViewSet(mixins.CreateModelMixin,
                 serializer = PatientSerializer(patient, many=True)
                 return Response(serializer.data)
             else:
-                return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             patient = Patient.objects.filter(id=p_id)
             serializer = PatientSerializer(patient, many=True)
@@ -46,39 +46,34 @@ class PatientViewSet(mixins.CreateModelMixin,
         if patient == patient_object:
             data = request.data
 
-
-            patient_object.document_number = data['document_number']   
-            patient_object.birth_date = data['birth_date']   
-            patient_object.province = data['province']   
-            patient_object.city = data['city']   
-
+            patient_object.document_number = data['document_number']
+            patient_object.birth_date = data['birth_date']
+            patient_object.province = data['province']
+            patient_object.city = data['city']
 
             patient_object.save()
 
             serializer = PatientSerializer(patient_object)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 
 
-
-#*Returns tutor from certain patient
-class TutorViewSet(mixins.CreateModelMixin, 
-                   mixins.RetrieveModelMixin, 
+# *Returns tutor from certain patient
+class TutorViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
                    mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin, 
+                   mixins.DestroyModelMixin,
                    viewsets.GenericViewSet):
-    serializer_class = TutorSerializer  
-    queryset = Tutor.objects  
-    
+    serializer_class = TutorSerializer
+    queryset = Tutor.objects
 
     def get_queryset(self):
         tutors = Tutor.objects.all()
         return tutors
-    
-    
+
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
         t_id = params['pk']
@@ -91,12 +86,11 @@ class TutorViewSet(mixins.CreateModelMixin,
                 serializer = TutorSerializer(tutor, many=True)
                 return Response(serializer.data)
             else:
-                return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             tutor = Tutor.objects.filter(id=t_id)
             serializer = TutorSerializer(tutor, many=True)
             return Response(serializer.data)
-
 
     def update(self, request, *args, **kwargs):
         patient = self.request.user.patient
@@ -104,37 +98,46 @@ class TutorViewSet(mixins.CreateModelMixin,
         if patient == tutor_object.patient:
             data = request.data
 
-
-            tutor_object.first_name = data['first_name']   
-            tutor_object.last_name = data['last_name']   
-
+            tutor_object.first_name = data['first_name']
+            tutor_object.last_name = data['last_name']
 
             tutor_object.save()
 
             serializer = TutorSerializer(tutor_object)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def destroy(self, request, *args, **kwargs):
+        user_state = self.request.user.is_superuser
+        tutor = self.get_object()
+        if user_state == False:
+            user_tutor = self.request.user.patient.tutor
+            if user_tutor == tutor:
+                tutor.delete()
+                return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            tutor.delete()
+            return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
 
 
 
 
-
-
-#*Returns certificate from certain patient
-class CertificateViewSet(mixins.CreateModelMixin, 
-                   mixins.RetrieveModelMixin, 
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin, 
-                   viewsets.GenericViewSet):
+# *Returns certificate from certain patient
+class CertificateViewSet(mixins.CreateModelMixin,
+                         mixins.RetrieveModelMixin,
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin,
+                         viewsets.GenericViewSet):
     serializer_class = CertificateSerializer
     queryset = Certificate.objects
-
 
     def get_queryset(self):
         certificate = Certificate.objects.all()
         return certificate
-    
+
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
         c_id = params['pk']
@@ -145,21 +148,7 @@ class CertificateViewSet(mixins.CreateModelMixin,
             serializer = CertificateSerializer(certificate, many=True)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    def update(self, request, *args, **kwargs):
-        certificate_object = self.get_object()
-        data = request.data
-
-
-        certificate_object.status = data['status']   
-        certificate_object.image = data['image']   
-
-
-        certificate_object.save()
-
-        serializer = CertificateSerializer(certificate_object)
-        return Response(serializer.data)
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request, *args, **kwargs):
         patient = self.request.user.patient
@@ -167,31 +156,42 @@ class CertificateViewSet(mixins.CreateModelMixin,
         if patient == certificate_object.patient:
             data = request.data
 
-
-            certificate_object.status = data['status']   
-            certificate_object.image = data['image']     
-
+            certificate_object.status = data['status']
+            certificate_object.image = data['image']
 
             certificate_object.save()
 
             serializer = CertificateSerializer(certificate_object)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def destroy(self, request, *args, **kwargs):
+        user_state = self.request.user.is_superuser
+        certificate = self.get_object()
+        if user_state == False:
+            user_certificate = self.request.user.patient.certificate
+            if user_certificate == certificate:
+                certificate.delete()
+                return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            certificate.delete()
+            return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
 
 
 
 
-#*Returns all healthInsurances from certain patient
-class HealthInsViewSet(mixins.CreateModelMixin, 
-                   mixins.RetrieveModelMixin, 
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin, 
-                   viewsets.GenericViewSet):
+# *Returns all healthInsurances from certain patient
+class HealthInsViewSet(mixins.CreateModelMixin,
+                       mixins.RetrieveModelMixin,
+                       mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin,
+                       viewsets.GenericViewSet):
     serializer_class = HealthInsurancePatientSerializer
     queryset = HealthInsurancePatient.objects
 
-    
     def get_queryset(self):
         hi_patient = HealthInsurancePatient.objects.all()
         return hi_patient
@@ -206,8 +206,7 @@ class HealthInsViewSet(mixins.CreateModelMixin,
             serializer = HealthInsurancePatientSerializer(health, many=True)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
-
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request, *args, **kwargs):
         patient = self.request.user.patient
@@ -215,23 +214,13 @@ class HealthInsViewSet(mixins.CreateModelMixin,
         if patient == healths_object.patient:
             data = request.data
 
-
-            healths_object.healthinsurance = data['healthinsurance']   
-            healths_object.description = data['description']   
-            healths_object.patient = data['patient']      
-
+            healths_object.healthinsurance = data['healthinsurance']
+            healths_object.description = data['description']
+            healths_object.patient = data['patient']
 
             healths_object.save()
 
             serializer = HealthInsurancePatientSerializer(healths_object)
             return Response(serializer.data)
         else:
-            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-
-
-
-
-
-
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)

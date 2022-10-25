@@ -14,9 +14,32 @@ class UserViewSet(viewsets.ModelViewSet):
         user = User.objects.all()
         return user
 
+
+    def update(self, request, *args, **kwargs):
+        user = self.request.user
+        user_object = self.get_object()
+        if user == user_object:
+            data = request.data
+
+
+            user_object.username = data['username']   
+            user_object.first_name = data['first_name']   
+            user_object.last_name = data['last_name']      
+            user_object.email = data['email']      
+            user_object.password = data['password']      
+
+
+            user_object.save()
+
+            serializer = UserSerializer(user_object)
+            return Response(serializer.data)
+        else:
+            return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    
+
 #*Returns all user data, including patient data
 class UserFullViewSet(mixins.RetrieveModelMixin, 
-                   mixins.UpdateModelMixin,
                    mixins.DestroyModelMixin, 
                    viewsets.GenericViewSet):
     serializer_class = UserFullSerializer
@@ -55,3 +78,26 @@ class UserFullViewSet(mixins.RetrieveModelMixin,
             user = User.objects.filter(id=u_id)
             serializer = UserFullSerializer(user, many=True)
             return Response(serializer.data)
+
+
+#!en caso de usarse hacen falta todos los otros campos
+    # def update(self, request, *args, **kwargs):
+    #     user = self.request.user
+    #     user_object = self.get_object()
+    #     if user == user_object:
+    #         data = request.data
+
+
+    #         user_object.username = data['username']   
+    #         user_object.first_name = data['first_name']   
+    #         user_object.last_name = data['last_name']      
+    #         user_object.email = data['email']      
+    #         user_object.password = data['password']      
+
+
+    #         user_object.save()
+
+    #         serializer = UserFullSerializer(user_object)
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
