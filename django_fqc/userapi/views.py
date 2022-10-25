@@ -36,7 +36,19 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return Response({'error' : 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    
+    def destroy(self, request, *args, **kwargs):
+        user_state = self.request.user.is_superuser
+        user_object = self.get_object()
+        if user_state == False:
+            user = self.request.user
+            if user == user_object:
+                user_object.delete()
+                return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            user_object.delete()
+            return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
 
 #*Returns all user data, including patient data
 class UserFullViewSet(mixins.RetrieveModelMixin, 
