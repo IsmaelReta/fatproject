@@ -6,10 +6,10 @@ from .models import Sale, SaleDetail
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
-        fields = '__all__'
+        fields = ['id', 'patient']
 
 
 class SaleDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SaleDetail
-        fields = '__all__'
+        fields = ['id', 'amount', 'sale', 'product']

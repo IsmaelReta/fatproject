@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'errors/500.css' %}">
+    <title>Error 500</title>
+</head>
+<body>
+
+<div class="header">
+
+    <div class="inner-header">
+        <h1 class="flex">Página no encontrada.</h1>
+        <p class="flex">El sitio encontró un error al cargarse. Puede que se encuentre en mantenimiento o configurado incorrectamente.</p>
+        <p class="flex">
+          <a href="http://127.0.0.1:8000/">Ir al sitio de administración</a>
+        </p>
+    </div>
+<div class="header">
+
+    <!--Waves-->
+    <div>
+      <svg class="waves" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="#ED1E79"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="#ED1E79" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="#17FF89" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#17FF89" />
+        </g>
+      </svg>
+    </div>
+  
+</div>
+  
+  <!--Contenido-->
+<div class="content flex">
+  <!--<p><img src="Logo.png" height="30%" width="30%"/></p>-->
+  <p class="fuente">Córdoba FQ</p>
+</div>
+
+</body>
+</html>
