@@ -20,9 +20,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView, RedirectView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from django.views.defaults import page_not_found
 
 
 urlpatterns = [
+    re_path(r'^404/$', page_not_found, {'exception': Exception()}),
     re_path(r'^password-reset/$',
             TemplateView.as_view(template_name="password_reset.html"),
             name='password-reset'),
