@@ -10,3 +10,10 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'price', 'image_link', 'total_products']
         #fields = ['id', 'name', 'price']
 
+
+class ProductSerializerSale(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = ['name', 'price']
+

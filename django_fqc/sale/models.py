@@ -53,7 +53,7 @@ class Sale(models.Model):
 
 class SaleDetail(models.Model):
     sale = models.ForeignKey("sale.Sale", on_delete=models.CASCADE)
-    product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
+    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name='product_data')
     # expiration_date = models.DateField()
     amount = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
