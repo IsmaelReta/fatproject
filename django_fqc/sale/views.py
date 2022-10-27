@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from .models import Sale, SaleDetail
 from .serializers import SaleSerializer, SaleDetailSerializer
+from rest_framework.response import Response
+from rest_framework import viewsets, status, mixins
 
 # Create your views here.
 
@@ -19,11 +21,30 @@ class SaleDetailViewSet(viewsets.ModelViewSet):
     serializer_class = SaleDetailSerializer
     queryset = SaleDetail.objects
 
-    def filter_queryset(self, queryset):
+    def get_queryset(self):
         sale_id = self.kwargs["sale_id"]
         sale_detail = SaleDetail.objects.filter(sale=sale_id)
         return sale_detail
 
+    def retrieve(self, request, *args, **kwargs):
+        patient = self.request.user.patient
+        sale_detail_data = request.data
+        patient_sales = Sale.objects.filter(patient=patient)
+        print(patient_sales)
+        a = self.get_object()
+        b = a.sale
+        print(b)
+        return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+    def create(self, request, *args, **kwargs):
+        patient = self.request.user.patient
+        sale_detail_data = request.data
+        patient_sales = Sale.objects.filter(patient=patient)
+        a = self.get_object()
+        b = a.sale
+        print(b)
+        return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 # class ConfirmOrder(viewsets.ModelViewSet):
 #     @action(methods=['PUT'], detail=True, url_path='confirm-order')
