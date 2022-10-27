@@ -51,7 +51,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
 
 
-class TestFullViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class TestFullViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = UserFullSerializer
 
     def get_queryset(self):
