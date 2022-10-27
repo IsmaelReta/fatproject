@@ -34,9 +34,8 @@ class Certificate(models.Model):
 
     def image(self):
         return format_html(
-            f'<a href="data:image/jpeg;base64,{base64.b64encode(self.image_binary + "=" * (-len(self.image_binary) % 4)).decode()}" target="_blank">'
-            f'<img src="data:image/jpeg;base64,{base64.b64encode(self.image_binary + "=" * (-len(self.image_binary) % 4)).decode()}"'
-            # b64decode(data + "=" * (-len(data) % 4))
+            f'<a href="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}" target="_blank">'
+            f'<img src="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"'
             f' width="100px" height="50px" class="img-thumbnail"> </a>'
         )
 
