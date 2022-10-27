@@ -41,9 +41,9 @@ class SaleDetailViewSet(viewsets.ModelViewSet):
         patient = self.request.user.patient
         sale_detail_data = request.data
         patient_sales = Sale.objects.filter(patient=patient)
-        a = self.get_object()
-        b = a.sale
-        print(b)
+        obj = self.get_object()
+        obj_sale = obj.sale
+        print(obj_sale)
         return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 # class ConfirmOrder(viewsets.ModelViewSet):
