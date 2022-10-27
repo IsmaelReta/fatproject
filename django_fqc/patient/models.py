@@ -3,13 +3,14 @@ from django.db import models
 from django.utils.html import format_html
 from django.contrib.auth.models import User
 import base64
+from patient.provinces import PROVINCE_CHOICES
 
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     document_number = models.CharField(max_length=8)
     birth_date = models.DateField(null=True)
-    province = models.CharField(max_length=25)
+    province = models.CharField(max_length=25, choices=PROVINCE_CHOICES)
     city = models.CharField(max_length=30)
 
     def __str__(self) -> str:
