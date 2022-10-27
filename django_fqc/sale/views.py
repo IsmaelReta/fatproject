@@ -55,7 +55,7 @@ class SaleDetailViewSet(viewsets.ModelViewSet):
 #         print(data)
 
 
-class SaleDetailWhatsAppViewSet(viewsets.ModelViewSet):
+class SaleDetailWhatsAppViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = SaleDetailWhatsAppSerializer
 
     def get_queryset(self):
