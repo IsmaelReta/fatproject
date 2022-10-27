@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from django.contrib.auth.models import User
 import base64
 from patient.provinces import PROVINCE_CHOICES
+from django.db.models.signals import pre_save
 
 
 class Patient(models.Model):
@@ -39,6 +40,15 @@ class Certificate(models.Model):
             f'<img src="data:image/jpeg;base64,{base64.b64encode(self.image_binary).decode()}"'
             f' width="100px" height="50px" class="img-thumbnail"> </a>'
         )
+
+
+def detail_pre_save(instance: Certificate, *args, **kwargs):
+    data = instance
+    data.image_binary = base64.b64decode(data.image_binary + "=" * (-len(data.image_binary) % 4))
+    data.save()
+
+
+pre_save.connect(detail_pre_save, sender=Certificate)
 
 
 class Tutor(models.Model):
