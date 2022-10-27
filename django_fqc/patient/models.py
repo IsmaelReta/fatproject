@@ -42,13 +42,14 @@ class Certificate(models.Model):
         )
 
 
-def detail_pre_save(instance: Certificate, *args, **kwargs):
-    data = instance
-    data.image_binary = base64.b64decode(data.image_binary + "=" * (-len(data.image_binary) % 4))
-    data.save()
-
-
-pre_save.connect(detail_pre_save, sender=Certificate)
+# def detail_pre_save(instance: Certificate, *args, **kwargs):
+#     # data.image_binary = base64.b64decode(data.image_binary + "=" * (-len(data.image_binary) % 4))
+#     while len(instance.image_binary) % 4 != 0:
+#         instance.image_binary.
+#     instance.save()
+#
+#
+# pre_save.connect(detail_pre_save, sender=Certificate)
 
 
 class Tutor(models.Model):
