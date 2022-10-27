@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from .models import Sale, SaleDetail
-from .serializers import SaleSerializer, SaleDetailSerializer
+from .serializers import SaleSerializer, SaleDetailSerializer, SaleDetailWhatsAppSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status, mixins
 
@@ -53,3 +53,12 @@ class SaleDetailViewSet(viewsets.ModelViewSet):
 #     def test(self, request, pk: int):
 #         data = {'patient_id': int(request.data.get('patient_id'))}
 #         print(data)
+
+
+class SaleDetailWhatsAppViewSet(viewsets.ModelViewSet):
+    serializer_class = SaleDetailWhatsAppSerializer
+
+    def get_queryset(self):
+        sale_id = self.kwargs["sale_id"]
+        sale_detail = SaleDetail.objects.filter(sale=sale_id)
+        return sale_detail

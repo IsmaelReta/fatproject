@@ -12,8 +12,16 @@ class SaleSerializer(serializers.ModelSerializer):
 
 
 class SaleDetailSerializer(serializers.ModelSerializer):
+    # product = ProductSerializerSale()
+
+    class Meta:
+        model = SaleDetail
+        fields = ['id', 'amount', 'sale', 'price', 'product']
+
+
+class SaleDetailWhatsAppSerializer(serializers.ModelSerializer):
     product = ProductSerializerSale()
 
     class Meta:
         model = SaleDetail
-        fields = ['id', 'amount', 'sale', 'product']
+        fields = ['id', 'amount', 'sale', 'price', 'product']
