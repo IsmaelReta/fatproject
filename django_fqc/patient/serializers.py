@@ -49,10 +49,7 @@ class PatientSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
 class HealthInsurancePatientSerializer(serializers.ModelSerializer):
-    healthinsurance = HealthInsuranceSerializer()
 
     class Meta:
         model = HealthInsurancePatient

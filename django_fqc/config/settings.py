@@ -16,8 +16,8 @@ from dotenv import load_dotenv
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_DIR = os.path.join(BASE_DIR,'static')
-TEMPLATE_DIR =os.path.join(BASE_DIR,'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 
 DJANGO_APPS = [
     'admin_interface',
-    'colorfield',
+    'colorfield', # noqa
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,10 +60,10 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework.authtoken', # noqa
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
+    'allauth.socialaccount', # noqa
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'rest_framework_simplejwt',
@@ -72,7 +72,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
-X_FRAME_OPTIONS = "SAMEORIGIN"
+X_FRAME_OPTIONS = "SAMEORIGIN" # noqa
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
 SITE_ID = 1
@@ -104,7 +104,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 AUTHENTICATION_BACKENDS = [
     # allauth specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
-    # Needed to login by username in Django admin, regardless of allauth
+    # Needed to log in by username in Django admin, regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -131,7 +131,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # noqa
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -184,7 +184,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 
 # Internationalization
