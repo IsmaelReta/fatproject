@@ -53,7 +53,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 #*Returns all user data, including patient data
-class UserFullViewSet(mixins.RetrieveModelMixin, 
+class UserFullViewSet(mixins.RetrieveModelMixin,
+                   mixins.ListModelMixin,
                    mixins.DestroyModelMixin, 
                    viewsets.GenericViewSet):
     serializer_class = UserFullSerializer
