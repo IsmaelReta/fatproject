@@ -51,6 +51,12 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Item has been deleted'}, status=status.HTTP_200_OK)
 
 
+class TestFullViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = UserFullSerializer
+
+    def get_queryset(self):
+        testUser = User.objects.all()
+        return testUser
 
 #*Returns all user data, including patient data
 class UserFullViewSet(mixins.RetrieveModelMixin,

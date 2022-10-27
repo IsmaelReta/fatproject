@@ -9,40 +9,6 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 # Create your views here.
-
-class GetUserPatientViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    serializer_class = PatientSerializer
-
-    def get_queryset(self):
-        patient = Patient.objects.all()
-        return patient
-
-    def retrieve(self, request, *args, **kwargs):
-        params = kwargs
-        u_id = params['pk']
-        current_user = self.request.user
-        return super().retrieve(request, *args, **kwargs)
-
-    def retrieve(self, request, *args, **kwargs):
-        params = kwargs
-        u_id = params['pk']
-        user_state = self.request.user.is_superuser
-        if user_state == False:
-            current_user = self.request.user
-            patient = Patient.objects.filter(user = current_user)
-            requested_user = User.objects.filter(id = u_id)
-            print (patient)
-            print(requested_user)
-            if current_user == requested_user:
-                patient = Patient.objects.filter(user = u_id)
-                print('paso')
-                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
-            else:
-                print('no paso')
-                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            print('nao pasao')
-            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
     
 
 # *Returns certain user
