@@ -13,9 +13,10 @@ class Sale(models.Model):
         ('C', 'Cancelado'), # noqa
     ]
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='P')
+    date = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self) -> str:
-        return f'- Sale_ID:{self.id}'
+        return f'- Sale_ID:{self.id} {self.patient}'
 
     def status_label(self, ):
         status = self.status

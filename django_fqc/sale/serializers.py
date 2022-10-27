@@ -10,6 +10,7 @@ class SaleSerializer(serializers.ModelSerializer):
         # fields = ['id', 'patient']
         fields = '__all__'
 
+
 class SaleDetailSerializer(serializers.ModelSerializer):
     product = ProductSerializerSale()
 

@@ -18,6 +18,7 @@ class SaleAdmin(admin.ModelAdmin):
         SaleDetailInLine,
     ]
     actions = ['make_accepted', 'make_canceled']
+    readonly_fields = ('date',)
 
     @admin.action(description='Marca venta/s seleccionadas como aceptada')
     def make_accepted(self, request, queryset):
