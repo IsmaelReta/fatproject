@@ -19,7 +19,7 @@ Also note this project was created using Python 3.10.6
 
 DEFAULT_FROM_EMAIL - Email used to send Emails
 
-EMAIL_HOST_PASSWOR - Email Password for this service
+EMAIL_HOST_PASSWORD - Email Password for this service
 
 SECRET_KEY - Django secret key
 
