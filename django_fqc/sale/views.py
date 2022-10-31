@@ -37,16 +37,16 @@ class SaleDetailViewSet(viewsets.ModelViewSet):
         return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-    def create(self, request, *args, **kwargs):
-        patient = self.request.user.patient
+    # def create(self, request, *args, **kwargs):
+    #     patient = self.request.user.patient
         
-        patient_sales = Sale.objects.filter(patient=patient)
-        obj = self.get_object()
-        obj_sale = obj.sale
-        print(obj_sale)
-        sale_detail_data = request.data
-        new_sale_detail = SaleDetail.objects.create()
-        return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+    #     patient_sales = Sale.objects.filter(patient=patient)
+    #     obj = self.get_object()
+    #     obj_sale = obj.sale
+    #     print(obj_sale)
+    #     sale_detail_data = request.data
+    #     new_sale_detail = SaleDetail.objects.create()
+    #     return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
 # class ConfirmOrder(viewsets.ModelViewSet):
 #     @action(methods=['PUT'], detail=True, url_path='confirm-order')
