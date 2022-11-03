@@ -214,14 +214,20 @@ class HealthInsViewSet(mixins.CreateModelMixin,
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
         h_id = params['pk']
-        current_patient = self.request.user.patient.id
-        current_health = self.get_object()
-        if int(current_health.patient.id) == int(current_patient):
+        user_state = self.request.user.is_superuser
+        if user_state == False:
+            current_patient = self.request.user.patient.id
+            current_health = self.get_object()
+            if int(current_health.patient.id) == int(current_patient):
+                health = HealthInsurancePatient.objects.filter(id=h_id)
+                serializer = HealthInsurancePatientSerializer(health, many=True)
+                return Response(serializer.data)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
             health = HealthInsurancePatient.objects.filter(id=h_id)
             serializer = HealthInsurancePatientSerializer(health, many=True)
             return Response(serializer.data)
-        else:
-            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request, *args, **kwargs):
         patient = self.request.user.patient
