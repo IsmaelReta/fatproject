@@ -156,14 +156,21 @@ class CertificateViewSet(mixins.CreateModelMixin,
     def retrieve(self, request, *args, **kwargs):
         params = kwargs
         c_id = params['pk']
-        current_patient = self.request.user.patient.id
-        current_certificate = self.get_object()
-        if int(current_certificate.patient.id) == int(current_patient):
+        user_state = self.request.user.is_superuser
+        if user_state == False:
+            current_patient = self.request.user.patient.id
+            current_certificate = self.get_object()
+            if int(current_certificate.patient.id) == int(current_patient):
+                certificate = Certificate.objects.filter(id=c_id)
+                serializer = CertificateSerializer(certificate, many=True)
+                return Response(serializer.data)
+            else:
+                return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
             certificate = Certificate.objects.filter(id=c_id)
             serializer = CertificateSerializer(certificate, many=True)
             return Response(serializer.data)
-        else:
-            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
     def update(self, request, *args, **kwargs):
         patient = self.request.user.patient
