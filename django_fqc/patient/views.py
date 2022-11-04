@@ -206,7 +206,8 @@ class CertificateViewSet(mixins.CreateModelMixin,
 
 
 # *Returns all healthInsurances from certain patient
-class HealthInsViewSet(mixins.CreateModelMixin,
+class HealthInsViewSet(mixins.ListModelMixin,
+                       mixins.CreateModelMixin,
                        mixins.RetrieveModelMixin,
                        mixins.UpdateModelMixin,
                        mixins.DestroyModelMixin,

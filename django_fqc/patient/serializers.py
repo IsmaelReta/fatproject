@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from healthinsurance.models import HealthInsurance
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
 from healthinsurance.serializers import HealthInsuranceSerializer
 # from userapi.serializers import UserSerializer
@@ -42,19 +42,40 @@ class TutorSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'patient']
 
 
-class PatientSerializer(serializers.ModelSerializer):
-  
-    class Meta:
-        model = Patient
-        fields = '__all__'
-
 
 class HealthInsurancePatientSerializer(serializers.ModelSerializer):
+    
+    health_name = serializers.SerializerMethodField()
+
+    def get_health_name(self, obj):
+            health = HealthInsurance.objects.filter(name=obj.healthinsurance)
+            serializer = HealthInsuranceSerializer(health, many=True)
+
+            return serializer.data
+
 
     class Meta:
         model = HealthInsurancePatient
-        fields = '__all__'
-        # fields = ['healthinsurance', 'description']
+        fields = ['id', 'healthinsurance', 'description', 'patient', 'health_name']
+
+
+class PatientSerializer(serializers.ModelSerializer):
+    
+    health = HealthInsurancePatientSerializer(many=True)
+
+    class Meta:
+        model = Patient
+        fields = ['user', 'document_number', 'city', 'health']
+
+
+
+# class PatientSerializer(serializers.ModelSerializer):
+    
+#     health = HealthInsurancePatientSerializer(many=True)
+
+#     class Meta:
+#         model = Patient
+#         fields = ['user', 'document_number', 'city', 'health']
 
 
 class HIPost(serializers.ModelSerializer):
