@@ -1,6 +1,6 @@
 from rest_framework import viewsets, status, mixins
 from .models import Patient, HealthInsurancePatient, Certificate, Tutor
-from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer, HIPost
+from .serializers import PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer
 from django.contrib.auth.models import User
 from userapi.serializers import UserSerializer  # noqa
 from rest_framework.response import Response
