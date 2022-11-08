@@ -15,7 +15,6 @@ class HealthInsurancePatientInLine(admin.TabularInline):
 
 class CertificateAdmin(admin.ModelAdmin):
     list_display = ('patient', 'image')
-    readonly_fields = ('image',)
 
 
 class CertificateInLine(admin.TabularInline):
