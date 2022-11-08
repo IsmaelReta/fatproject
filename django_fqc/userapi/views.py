@@ -61,7 +61,8 @@ class TestFullViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
 #*Returns all user data, including patient data
 class UserFullViewSet(mixins.RetrieveModelMixin,
                    mixins.ListModelMixin,
-                   mixins.DestroyModelMixin, 
+                   mixins.DestroyModelMixin,
+                   mixins.UpdateModelMixin, 
                    viewsets.GenericViewSet):
     serializer_class = UserFullSerializer
     

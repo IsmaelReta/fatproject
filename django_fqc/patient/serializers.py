@@ -61,11 +61,10 @@ class HealthInsurancePatientSerializer(serializers.ModelSerializer):
 
 class PatientSerializer(serializers.ModelSerializer):
     
-    health = HealthInsurancePatientSerializer(many=True)
 
     class Meta:
         model = Patient
-        fields = ['user', 'document_number', 'city', 'health']
+        fields = ['user', 'document_number', 'city']
 
 
 
