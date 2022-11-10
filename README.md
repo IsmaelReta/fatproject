@@ -9,7 +9,7 @@ Steps to run this project:
 
 2 - python -m venv <<folder_for_venv>>
 
-If the venv is located in the same directory as django_fqc or inside it, you must name it fat_project_venv in order to be ignored in commits
+If the venv is located in the same directory you must name it fat_project_venv in order to be ignored in commits
 
 Also note this project was created using Python 3.10.6
 
