@@ -1,27 +1,7 @@
-{% load account %} {% user_display user as user_display %} {% load i18n %} {% autoescape off %}
-        <div class="mail__content bg-white p-8 shadow-md">
+{% extends "account/email/base_message.html" %}
+{% load account %}
+{% load i18n %}
 
-          <div class="content__header text-center tracking-wide border-b">
-            <div class="text-red text-sm font-bold">Cordoba FQ</div>
-            <h1 class="text-3xl h-48 flex items-center justify-center">Activacion de cuenta</h1>
-          </div>
+{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}You're receiving this e-mail because user {{ user_display }} has given your e-mail address to register an account on {{ site_domain }}.
 
-          <div class="content__body py-8 border-b">
-            <p>
-              Hola {{ user_display }}, <br><br> Para activar tu cuenta presiona confirmar
-            </p>
-            <p> 
-            </p>
-            <a href="{{ activate_url }}" class="text-white text-sm tracking-wide bg-red rounded w-full my-8 p-4 ">Confirme su direccion mail</a>
-            <p class="text-sm">
-              <br>
-            </p>
-          </div>
-          <div class="content__footer mt-8 text-center text-grey-darker">
-            <h3 class="text-base sm:text-lg mb-4">Cordoba FQ</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-{% endautoescape %}
-</body>
+To confirm this is correct, go to {{ activate_url }}{% endblocktrans %}{% endautoescape %}{% endblock %}
