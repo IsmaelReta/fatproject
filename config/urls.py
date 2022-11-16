@@ -20,21 +20,20 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView, RedirectView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from dj_rest_auth.views import PasswordResetConfirmView
 from django.views.defaults import page_not_found
 
 
 urlpatterns = [
     re_path(r'^404/$', page_not_found, {'exception': Exception()}),
     re_path(r'^password-reset/$',
-            TemplateView.as_view(template_name="password_reset.html"),
-            name='password-reset'),
-    re_path(r'^password-reset/confirm/$',
-            TemplateView.as_view(template_name="password_reset_confirm.html"),
-            name='password-reset-confirm'),
-    re_path(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
-            TemplateView.as_view(template_name="password_reset_confirm.html"),
-            name='password_reset_confirm'),
+        TemplateView.as_view(template_name="password_reset.html"),
+        name='password-reset'),
+    re_path(r'password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,40})/$',
+        PasswordResetConfirmView.as_view(), 
+        name='password_reset_confirm'),
 
+        
     path('', RedirectView.as_view(url='admin/')),
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
