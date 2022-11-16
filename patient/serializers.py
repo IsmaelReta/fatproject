@@ -64,4 +64,4 @@ class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ['user', 'document_number', 'city']
+        fields = ['user', 'id', 'document_number', 'city']
