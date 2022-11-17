@@ -60,9 +60,9 @@ class HealthInsurancePatientSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
-    health = HealthInsurancePatientSerializer(many=True)
-    tutor = TutorSerializer()
-    certificate = CertificateSerializer()
+    health = HealthInsurancePatientSerializer(many=True,required=False)
+    tutor = TutorSerializer(required=False)
+    certificate = CertificateSerializer(required=False)
 
     class Meta:
         model = Patient
