@@ -86,32 +86,32 @@ def detail_pre_save(instance: SaleDetail, *args, **kwargs):
     if previous.amount == new.amount:  # are there amount changes?
         return print("no amount changes", previous.amount, new.amount)
     elif previous.amount > new.amount:  # reduced amount, add in inventory
-        print("reduced amount")
+        # print("reduced amount")
         change = previous.amount - new.amount
         if Inventory.objects.filter(product_id=new.product.id).first().id == new.product.id:  # ad to existing inventory
-            print("add to inventory")
+            # print("add to inventory")
             inventory = Inventory.objects.filter(product_id=new.product.id).first()
             inventory.quantity += change
             inventory.save()
         else:  # create inventory with product
-            print("create inventory")
+            # print("create inventory")
             inv = Inventory(product_id=new.product.id, quantity=change, type=' ', warehouse_id=1)
             inv.save()
     elif previous.amount < new.amount:  # increased amount, remove from inventory
-        print("increased amount")
+        # print("increased amount")
         change = new.amount - previous.amount
         while change != 0:
-            print("inside the loop!", new.product.id)
+            # print("inside the loop!", new.product.id)
             inventory = Inventory.objects.filter(product_id=new.product.id).first()
-            print("inside the loop!!!", new.product.id, inventory)
+            # print("inside the loop!!!", new.product.id, inventory)
             if inventory.quantity == change:  # if new equal to saved delete inventory
-                print("delete inventory")
+                # print("delete inventory")
                 inventory.delete()
                 change = 0
             elif inventory.quantity > change:
                 inventory.quantity -= change  # if inv greater than change remove from inventory
                 inventory.save()
-                print("remove from inventory", inventory.id)
+                # print("remove from inventory", inventory.id)
                 change = 0
             else:  # inv less than change, delete inv and update change
                 change -= inventory.quantity
