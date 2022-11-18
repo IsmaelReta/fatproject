@@ -32,22 +32,25 @@ class SaleDetailViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets
 
     def create(self, request, *args, **kwargs):
         patient = self.request.user.patient #*Patient request ID
-        patient_sales = Sale.objects.filter(patient=patient) #*Patient request Sales
-        print(patient_sales)
         sale_detail_data = request.data
-        nsale = sale_detail_data['sale'] #*Data Sale
-        print(nsale)
-        s_sale = Sale.objects.filter(id=nsale)
-        print(s_sale)
-        nproduct = sale_detail_data['product'] #*Data Sale
-        namount = sale_detail_data['amount'] #*Data Sale
-        nprice = sale_detail_data['price'] #*Data Sale
-        if s_sale in patient_sales:
-            print('aaaa')
+
+        new_sale = sale_detail_data['sale'] #*Data Sale
+        s_sale = Sale.objects.filter(id=new_sale)
+        new_product = sale_detail_data['product'] #*Data Sale
+        new_amount = sale_detail_data['amount'] #*Data Sale
+        new_price = sale_detail_data['price'] #*Data Sale
+
+        if s_sale.filter(patient=patient).exists():
+            new_sale_detail = SaleDetail.objects.create(sale=new_sale, product=new_product, amount=new_amount, new_price=new_price)
+            new_sale_detail.save()
+            
+            serializer = SaleDetailSerializer(new_sale_detail)
+
+            return Response(serializer.data)
+
         else:
-            pass
-        # new_sale_detail = SaleDetail.objects.create() #*Creation of new sale_detail
-        return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 
     # def list(self, request, *args, **kwargs):
