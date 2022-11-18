@@ -75,6 +75,7 @@ post_save.connect(detail_post_save, sender=SaleDetail)
 
 def detail_pre_save(instance: SaleDetail, *args, **kwargs):
     new = instance
+    new.amount = int(new.amount)
     detail_exist = SaleDetail.objects.filter(id=instance.id).first()
     if detail_exist is None:
         product = Product.objects.get(id=new.product.id)
