@@ -7,8 +7,8 @@ from product.serializers import ProductSerializerSale
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
-        # fields = ['id', 'patient']
-        fields = '__all__'
+        fields = ['id', 'patient']
+        # fields = '__all__'
 
 
 class SaleDetailSerializer(serializers.ModelSerializer):
