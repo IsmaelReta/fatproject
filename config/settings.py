@@ -244,7 +244,7 @@ STATICFILES_DIRS = [
 ]
 # MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'django_fqc/static')
 # MEDIA_URL = '/api/static/'
-# STATIC_ROOT = 'static'
+# STATIC_ROOT = 'staticfiles/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
