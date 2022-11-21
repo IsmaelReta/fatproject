@@ -25,9 +25,6 @@ class SaleDetailViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets
     def get_queryset(self):
         sale_id = self.kwargs["sale_id"]
         sale_detail = SaleDetail.objects.filter(sale=sale_id)
-        p = self.request.user.patient.id
-        sale = Sale.objects.filter(patient=p)
-        print(sale)
         return sale_detail
 
     def create(self, request, *args, **kwargs):
