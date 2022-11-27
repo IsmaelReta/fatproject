@@ -12,7 +12,7 @@ class SaleDetailInLine(admin.TabularInline):
 
 
 class SaleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'status_label')
+    list_display = ('id', 'status_label', 'patient', 'date')
 
     inlines = [
         SaleDetailInLine,
@@ -40,6 +40,10 @@ class SaleAdmin(admin.ModelAdmin):
         queryset.delete()
 
 
+class SaleDetailAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sale', 'product', 'amount', 'price')
+
+
 admin.site.register(Sale, SaleAdmin)
-admin.site.register(SaleDetail)
+admin.site.register(SaleDetail, SaleDetailAdmin)
 

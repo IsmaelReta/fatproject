@@ -15,7 +15,7 @@ class Product(models.Model):
     market = models.CharField(max_length=23, choices=MARKET_CHOICES, default='N')
 
     def __str__(self) -> str:
-        return f'{self.name}-ID:{self.id}  Precio:{self.price}' # noqa
+        return f'{self.name} ID:{self.id}' # noqa
 
     def image(self):
         return format_html(

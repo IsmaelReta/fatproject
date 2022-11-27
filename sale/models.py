@@ -16,7 +16,7 @@ class Sale(models.Model):
     date = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self) -> str:
-        return f'- Sale_ID:{self.id} {self.patient}'
+        return f'- Sale_ID:{self.id} '
 
     def status_label(self, ):
         status = self.status
@@ -60,7 +60,7 @@ class SaleDetail(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self) -> str:
-        return f'- SaleDetail_ID:{self.id}'
+        return f'- Detail_ID:{self.id}'
 
 
 def detail_post_save(sender, instance, created, *args, **kwargs):

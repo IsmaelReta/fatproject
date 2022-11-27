@@ -25,7 +25,8 @@ class HealthInsurancePatient(models.Model):
     patient = models.ForeignKey('patient.Patient', related_name='health', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f'{self.healthinsurance.name} - Patient_ID:{self.patient.id}'
+        return f'{self.healthinsurance.name} - Patient ID:{self.patient.id} {self.patient.user.first_name} ' \
+               f'{self.patient.user.last_name}'
 
 
 class Certificate(models.Model):
