@@ -42,9 +42,11 @@ class PatientViewSet(mixins.CreateModelMixin,
             return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        patient = self.request.user.patient
+        patient = self.request.user.id
         patient_object = self.get_object()
-        if patient == patient_object:
+        print(patient)
+        print(patient_object.id)
+        if patient == patient_object.id:
             data = request.data
 
             patient_object.document_number = data['document_number']
