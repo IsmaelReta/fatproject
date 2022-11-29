@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from patient.serializers import (PatientSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer)
+from patient.serializers import (PatientExtraSerializer, HealthInsurancePatientSerializer, CertificateSerializer, TutorSerializer)
 from patient.models import (Patient, HealthInsurancePatient, Certificate, Tutor)
 
 
@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserFullSerializer(serializers.ModelSerializer):
-    patient = PatientSerializer()
+    patient = PatientExtraSerializer()
 
     class Meta:
         model = User

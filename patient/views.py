@@ -29,22 +29,24 @@ class PatientViewSet(mixins.CreateModelMixin,
         p_id = params['pk']
         user_state = self.request.user.is_superuser
         if user_state == False:
-            current_patient = self.request.user.patient.id
-            if int(current_patient) == int(p_id):
-                patient = Patient.objects.filter(id=p_id)
+            current_user = self.request.user.id
+            if int(current_user) == int(p_id):
+                patient = Patient.objects.filter(user=p_id)
                 serializer = PatientSerializer(patient, many=True)
                 return Response(serializer.data)
             else:
                 return Response({'error': 'This data is not yours'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            patient = Patient.objects.filter(id=p_id)
+            patient = Patient.objects.filter(user=p_id)
             serializer = PatientSerializer(patient, many=True)
             return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        patient = self.request.user.patient
+        patient = self.request.user.id
         patient_object = self.get_object()
-        if patient == patient_object:
+        print(patient)
+        print(patient_object.id)
+        if patient == patient_object.id:
             data = request.data
 
             patient_object.document_number = data['document_number']
