@@ -21,7 +21,7 @@ class Sale(models.Model):
     def status_label(self, ):
         status = self.status
         if status == 'P':
-            style = "color:yellow"
+            style = "color:blue"
             label_text = self.STATUS_CHOICES[0][1]
         elif status == 'A':
             style = "color:green"
